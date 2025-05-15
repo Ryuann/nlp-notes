@@ -1,9 +1,9 @@
 ---
-title: "Video Notes: Ngram, language model, sentiment analysis"
+title: "Lecture 2"
 format: html
 ---
 ---
-
+# Video Notes: Ngram, language model, sentiment analysis
 ## Language Modeling and Probability Foundations
 
 ### Sequence Modeling and Prediction
@@ -296,3 +296,138 @@ WordNet 是一个词汇知识库，它用语义关系连接单词，包括：
 * Hu, M., & Liu, B. (2004). Mining and summarizing customer reviews.
 * Agarwal, A., & Mittal, N. (2015). Text classification using machine learning methods.
 * WordNet: [https://wordnet.princeton.edu/](https://wordnet.princeton.edu/)
+
+# Video Notes: Topic models
+## What Are Topic Models?
+
+Topic models are statistical methods that discover abstract "topics" in a collection of documents. The most well-known model is **Latent Dirichlet Allocation (LDA)**. Documents are modeled as mixtures of topics, and each topic is characterized by a distribution over words.
+
+是一类无监督学习方法，能够从文本集合中自动发现**潜在话题**。
+
+* doc = 多个主题的混合；
+* topic = 一组词的概率分布。
+
+---
+
+## LDA Graphical Structure & Plate Notation
+
+* α：控制文档中主题分布的 Dirichlet 先验
+* θ\_d：第 d 篇文档的主题分布
+* z\_dn：第 d 篇文档中第 n 个词的主题
+* β\_k：第 k 个主题下的词分布
+* w\_dn：实际生成的词
+* η：控制 β 的 Dirichlet 超参数
+
+🧾 **生成过程**：
+
+1. 对每篇文档 d，从 Dirichlet(α) 抽样出 θ\_d
+2. 对每个词，从 Multinomial(θ\_d) 选择主题 z\_dn
+3. 再从 Multinomial(β\_{z\_dn}) 中采样出词 w\_dn
+
+---
+
+## LDA as Soft Clustering
+
+LDA 是一种Soft Clustering）
+* Each word is probabilistically assigned to a topic.
+* Unlike hard clustering (e.g. K-means), LDA allows multiple topics per document.
+
+* 每个词是从多个主题中以概率方式抽样得到的；
+* 每个文档可能属于多个主题；
+* 区别于 Latent Class 模型（硬聚类，每个文档只属于一个主题）。
+
+---
+
+## LDA as Dimension Reduction
+LDA 也可以看作是一种**降维技术**：
+* 把高维的词频向量映射为低维的主题空间；
+* 与 PCA 类似，但：
+  * LDA 的分量是正数
+  * 用概率建模而非线性投影
+
+📌 替代方案：矩阵分解（Matrix Factorization）、交替最小二乘（ALS）
+* Expected word vector: $\mathbb{E}[w] = \theta^\top \beta$
+* θ: document's topic distribution
+* β: topic's word distribution
+
+---
+
+## Variational Inference in LDA
+
+**Why Variational Inference (VI)?**
+
+* Posterior $p(\theta, z \mid w)$ is intractable.
+* VI approximates it with simpler $q(\theta, z)$ by minimizing KL divergence.
+
+**VI Mechanism:**
+
+* Use mean-field factorization: $q(\theta, z) = q(\theta) \prod_n q(z_n)$
+* Optimize parameters $\gamma, \phi$
+* Iteratively update:
+
+  * $\phi_{ni} \propto \beta_{i w_n} \exp(\Psi(\gamma_i))$
+  * $\gamma_i = \alpha_i + \sum_n \phi_{ni}$
+
+
+* 贝叶斯推断要求计算后验分布，但不可解析；
+* VI 把推断问题转为优化问题：
+
+  * 选一个可处理的分布族 $q$，使其最接近真实后验。
+  * 用变分参数 $\gamma$ 和 $\phi$ 表达文档的主题表示和词的主题分布。
+
+**比较：**
+
+| 方法   | 优点      | 缺点        |
+| ---- | ------- | --------- |
+| MCMC | 精度高     | 慢，不适合大规模  |
+| VI   | 快，有解析形式 | 有偏差，依赖分布族 |
+
+---
+
+## Extensions of LDA
+
+| 扩展模型                        | 描述                         |
+| --------------------------- | -------------------------- |
+| CTM（Correlated Topic Model） | 使用 Logistic Normal 建模主题相关性 |
+| Author-Topic Model          | 每个作者拥有一个主题分布               |
+| Dynamic Topic Model         | 模型中主题会随时间变化                |
+
+📌 缺点：这些扩展往往破坏 Dirichlet 的简洁性质，使得推断变得更复杂（通常需要 MCMC 或 EP）
+
+---
+
+## Sentence-Constrained LDA
+
+SC-LDA 假设：**一句话通常只讲一个主题**，并且这个主题可能在下一句中延续。
+
+* 每句 → 一个主题
+* 更贴近用户在评论中的表达结构
+* 可用于产品属性提取（如“屏幕、价格、电池”）
+* 文档的主题分布可用于**预测评分**
+* Each sentence tends to express one topic (Buschken & Allenby, 2016)
+* Better topic-word tail modeling
+* Improves interpretability & rating prediction
+
+### 情感不是主题：
+
+* 主题由“名词”驱动，情感由“形容词”驱动；
+* 同一个主题可能包含褒贬不一的内容；
+* 在大数据中可能学出“主题+情绪”复合结构（如“bad battery”）
+
+Topic × Sentiment: 
+
+1. 先识别句子的主题（SC-LDA）
+2. 对句子做情绪分类
+3. 将情绪与主题进行交互建模 → 方面级情感分析（Aspect-Based Sentiment Analysis）
+
+---
+
+## Summary
+
+| 主题     | 内容                                     |
+| ------ | -------------------------------------- |
+| LDA 核心 | 主题分布 × 词分布（θ × β）                      |
+| 推断方法   | VI（快） vs MCMC（准）                       |
+| 模型结构   | 文档 = 多主题，词 = 从主题中抽样                    |
+| 变体     | CTM, Dynamic LDA, Author-Topic, SC-LDA |
+| 进阶方向   | 加入情绪、时间、结构化先验                          |
