@@ -517,15 +517,19 @@ tf(t,d) = 0.5 + 0.5 \cdot \frac{f_{t,d}}{\max \{f_{t',d} : t' \in d\}}
 </section>
 <section id="lda-graphical-structure-plate-notation" class="level2">
 <h2 class="anchored" data-anchor-id="lda-graphical-structure-plate-notation">LDA Graphical Structure &amp; Plate Notation</h2>
+<p><img src="../../assets/LDAStructure.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>Figure: LDA model structure (adapted from Blei et al., 2003)</p>
+</blockquote>
 <ul>
-<li>α：控制文档中主题分布的 Dirichlet 先验</li>
-<li>θ_d：第 d 篇文档的主题分布</li>
+<li>α：hyperparameter for Dirichlet distribution of topic probabilities, 控制文档中主题分布的 Dirichlet 先验</li>
+<li>θ_d：topic probabilities for document d of the D documents, 第 d 篇文档的主题分布</li>
 <li>z_dn：第 d 篇文档中第 n 个词的主题</li>
-<li>β_k：第 k 个主题下的词分布</li>
+<li>β_k：word probabilities given topic k, 第 k 个主题下的词分布</li>
 <li>w_dn：实际生成的词</li>
 <li>η：控制 β 的 Dirichlet 超参数</li>
 </ul>
-<p>🧾 <strong>生成过程</strong>：</p>
+<p><strong>生成过程</strong>：</p>
 <ol type="1">
 <li>对每篇文档 d，从 Dirichlet(α) 抽样出 θ_d</li>
 <li>对每个词，从 Multinomial(θ_d) 选择主题 z_dn</li>
@@ -535,19 +539,75 @@ tf(t,d) = 0.5 + 0.5 \cdot \frac{f_{t,d}}{\max \{f_{t',d} : t' \in d\}}
 </section>
 <section id="lda-as-soft-clustering" class="level2">
 <h2 class="anchored" data-anchor-id="lda-as-soft-clustering">LDA as Soft Clustering</h2>
-<p>LDA 是一种Soft Clustering） * Each word is probabilistically assigned to a topic. * Unlike hard clustering (e.g.&nbsp;K-means), LDA allows multiple topics per document.</p>
+<p>LDA 是一种Soft Clustering</p>
 <ul>
+<li>Each word is probabilistically assigned to a topic.</li>
+<li>Unlike hard clustering (e.g.&nbsp;K-means), LDA allows multiple topics per document.</li>
+<li>常见的聚类模型，比如 K-means，是一种Hard Clustering,每个文档只属于一个类。</li>
+<li>LDA是Soft Clustering: 每个词都有一个属于不同主题的概率;</li>
 <li>每个词是从多个主题中以概率方式抽样得到的；</li>
 <li>每个文档可能属于多个主题；</li>
-<li>区别于 Latent Class 模型（硬聚类，每个文档只属于一个主题）。</li>
+<li>每个文档的主题分布是一个 Multinomial, 参数来自 Dirichlet</li>
 </ul>
 <hr>
 </section>
 <section id="lda-as-dimension-reduction" class="level2">
 <h2 class="anchored" data-anchor-id="lda-as-dimension-reduction">LDA as Dimension Reduction</h2>
-<p>LDA 也可以看作是一种<strong>降维技术</strong>： * 把高维的词频向量映射为低维的主题空间； * 与 PCA 类似，但： * LDA 的分量是正数 * 用概率建模而非线性投影</p>
-<p>📌 替代方案：矩阵分解（Matrix Factorization）、交替最小二乘（ALS） * Expected word vector: <span class="math inline">\(\mathbb{E}[w] = \theta^\top \beta\)</span> * θ: document’s topic distribution * β: topic’s word distribution</p>
+<p>LDA 也可以看作是一种<strong>降维技术</strong>： * 把高维的词频向量映射为低维的主题空间； * 非线性降维 <span class="math display">\[
+\mathbb{E}[w] = \theta^\top \beta
+\]</span></p>
+<ul>
+<li>θ：文档的主题分布（类似 PCA 中的因子得分）</li>
+<li>β：主题中的词分布（类似因子载荷）</li>
+</ul>
+<section id="与-pca-的异同" class="level4">
+<h4 class="anchored" data-anchor-id="与-pca-的异同">与 PCA 的异同：</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>比较</th>
+<th>PCA</th>
+<th>LDA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>分量符号</td>
+<td>可正可负</td>
+<td>都是非负</td>
+</tr>
+<tr class="even">
+<td>模型类型</td>
+<td>线性代数</td>
+<td>贝叶斯生成模型</td>
+</tr>
+<tr class="odd">
+<td>表达方式</td>
+<td>向量投影</td>
+<td>概率生成</td>
+</tr>
+<tr class="even">
+<td>数据类型</td>
+<td>连续数据</td>
+<td>离散数据（如文本）</td>
+</tr>
+<tr class="odd">
+<td>是否考虑词共现</td>
+<td>否</td>
+<td>是（通过主题）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>LDA与 PCA 类似，但：
+<ul>
+<li>LDA 的分量是正数</li>
+<li>用概率建模而非线性投影</li>
+</ul></li>
+</ul>
+<p>替代方案：Matrix Factorization、Alternating Least Squares 交替最小二乘（ALS）</p>
 <hr>
+</section>
 </section>
 <section id="variational-inference-in-lda" class="level2">
 <h2 class="anchored" data-anchor-id="variational-inference-in-lda">Variational Inference in LDA</h2>
@@ -556,22 +616,48 @@ tf(t,d) = 0.5 + 0.5 \cdot \frac{f_{t,d}}{\max \{f_{t',d} : t' \in d\}}
 <li>Posterior <span class="math inline">\(p(\theta, z \mid w)\)</span> is intractable.</li>
 <li>VI approximates it with simpler <span class="math inline">\(q(\theta, z)\)</span> by minimizing KL divergence.</li>
 </ul>
-<p><strong>VI Mechanism:</strong></p>
+<p><strong>VI Mechanism:</strong> * 贝叶斯推断要求计算后验分布，但没有解析解； <span class="math display">\[
+p(\theta \mid \text{data}) = \frac{p(\text{data} \mid \theta) p(\theta)}{p(\text{data})}
+\]</span></p>
 <ul>
-<li><p>Use mean-field factorization: <span class="math inline">\(q(\theta, z) = q(\theta) \prod_n q(z_n)\)</span></p></li>
-<li><p>Optimize parameters <span class="math inline">\(\gamma, \phi\)</span></p></li>
-<li><p>Iteratively update:</p>
-<ul>
-<li><span class="math inline">\(\phi_{ni} \propto \beta_{i w_n} \exp(\Psi(\gamma_i))\)</span></li>
-<li><span class="math inline">\(\gamma_i = \alpha_i + \sum_n \phi_{ni}\)</span></li>
-</ul></li>
-<li><p>贝叶斯推断要求计算后验分布，但不可解析；</p></li>
 <li><p>VI 把推断问题转为优化问题：</p>
 <ul>
 <li>选一个可处理的分布族 <span class="math inline">\(q\)</span>，使其最接近真实后验。</li>
 <li>用变分参数 <span class="math inline">\(\gamma\)</span> 和 <span class="math inline">\(\phi\)</span> 表达文档的主题表示和词的主题分布。</li>
 </ul></li>
+<li><p>Use mean-field factorization: <span class="math inline">\(q(\theta, z) = q(\theta) \prod_n q(z_n)\)</span></p></li>
+<li><p>Optimize parameters <span class="math inline">\(\gamma, \phi\)</span></p></li>
+<li><p>Iteratively update:</p>
+<ul>
+<li><span class="math inline">\(\phi_{ni} \propto \beta_{i w_n} \exp(\Psi(\gamma_i))\)</span></li>
+<li><span class="math inline">\(\gamma_i = \alpha_i + \sum_n \phi_{ni}\)</span> ### 两种主要的后验近似方法</li>
+</ul></li>
 </ul>
+<section id="mcmcmarkov-chain-monte-carlo" class="level4">
+<h4 class="anchored" data-anchor-id="mcmcmarkov-chain-monte-carlo">1. MCMC（Markov Chain Monte Carlo）</h4>
+<ul>
+<li><p>样本采样模拟后验分布；</p></li>
+<li><p>理论上准确（收敛到真实后验），但：</p>
+<ul>
+<li>计算代价高；</li>
+<li>收敛慢；</li>
+<li>对于大规模文档数据不现实。</li>
+</ul></li>
+</ul>
+</section>
+<section id="variational-inferencevi" class="level4">
+<h4 class="anchored" data-anchor-id="variational-inferencevi">2. Variational Inference（VI）</h4>
+<p>VI 的基本思想是：</p>
+<p>与其反复抽样后验分布，不如选择一个容易处理的分布族 <span class="math inline">\(q(\theta, z)\)</span>，通过优化来逼近真实后验 <span class="math inline">\(p(\theta, z \mid w)\)</span>。</p>
+<p>具体做法是：</p>
+<ul>
+<li>选择一个易于计算的变分分布族 <span class="math inline">\(q(\theta, z)\)</span>（如 Dirichlet × Multinomial）；</li>
+<li>通过最小化 KL 散度（Kullback-Leibler Divergence）：</li>
+</ul>
+<p><span class="math display">\[
+q^*(\theta, z) = \arg\min_q \text{KL}(q(\theta, z) \| p(\theta, z \mid w))
+\]</span></p>
+<p>这个最优化问题等价于最大化 Evidence Lower Bound。</p>
 <p><strong>比较：</strong></p>
 <table class="caption-top table">
 <thead>
@@ -595,6 +681,7 @@ tf(t,d) = 0.5 + 0.5 \cdot \frac{f_{t,d}}{\max \{f_{t',d} : t' \in d\}}
 </tbody>
 </table>
 <hr>
+</section>
 </section>
 <section id="extensions-of-lda" class="level2">
 <h2 class="anchored" data-anchor-id="extensions-of-lda">Extensions of LDA</h2>
@@ -620,7 +707,7 @@ tf(t,d) = 0.5 + 0.5 \cdot \frac{f_{t,d}}{\max \{f_{t',d} : t' \in d\}}
 </tr>
 </tbody>
 </table>
-<p>📌 缺点：这些扩展往往破坏 Dirichlet 的简洁性质，使得推断变得更复杂（通常需要 MCMC 或 EP）</p>
+<p>这些扩展往往破坏 Dirichlet 的简洁性质，使得推断变得更复杂（通常需要 MCMC 或 EP）</p>
 <hr>
 </section>
 <section id="sentence-constrained-lda" class="level2">

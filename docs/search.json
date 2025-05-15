@@ -60,35 +60,35 @@
     "href": "02_topic_sentiment/lecture2.html#lda-graphical-structure-plate-notation",
     "title": "Lecture 2",
     "section": "LDA Graphical Structure & Plate Notation",
-    "text": "LDA Graphical Structure & Plate Notation\n\nα：控制文档中主题分布的 Dirichlet 先验\nθ_d：第 d 篇文档的主题分布\nz_dn：第 d 篇文档中第 n 个词的主题\nβ_k：第 k 个主题下的词分布\nw_dn：实际生成的词\nη：控制 β 的 Dirichlet 超参数\n\n🧾 生成过程：\n\n对每篇文档 d，从 Dirichlet(α) 抽样出 θ_d\n对每个词，从 Multinomial(θ_d) 选择主题 z_dn\n再从 Multinomial(β_{z_dn}) 中采样出词 w_dn"
+    "text": "LDA Graphical Structure & Plate Notation\n\n\nFigure: LDA model structure (adapted from Blei et al., 2003)\n\n\nα：hyperparameter for Dirichlet distribution of topic probabilities, 控制文档中主题分布的 Dirichlet 先验\nθ_d：topic probabilities for document d of the D documents, 第 d 篇文档的主题分布\nz_dn：第 d 篇文档中第 n 个词的主题\nβ_k：word probabilities given topic k, 第 k 个主题下的词分布\nw_dn：实际生成的词\nη：控制 β 的 Dirichlet 超参数\n\n生成过程：\n\n对每篇文档 d，从 Dirichlet(α) 抽样出 θ_d\n对每个词，从 Multinomial(θ_d) 选择主题 z_dn\n再从 Multinomial(β_{z_dn}) 中采样出词 w_dn"
   },
   {
     "objectID": "02_topic_sentiment/lecture2.html#lda-as-soft-clustering",
     "href": "02_topic_sentiment/lecture2.html#lda-as-soft-clustering",
     "title": "Lecture 2",
     "section": "LDA as Soft Clustering",
-    "text": "LDA as Soft Clustering\nLDA 是一种Soft Clustering） * Each word is probabilistically assigned to a topic. * Unlike hard clustering (e.g. K-means), LDA allows multiple topics per document.\n\n每个词是从多个主题中以概率方式抽样得到的；\n每个文档可能属于多个主题；\n区别于 Latent Class 模型（硬聚类，每个文档只属于一个主题）。"
+    "text": "LDA as Soft Clustering\nLDA 是一种Soft Clustering\n\nEach word is probabilistically assigned to a topic.\nUnlike hard clustering (e.g. K-means), LDA allows multiple topics per document.\n常见的聚类模型，比如 K-means，是一种Hard Clustering,每个文档只属于一个类。\nLDA是Soft Clustering: 每个词都有一个属于不同主题的概率;\n每个词是从多个主题中以概率方式抽样得到的；\n每个文档可能属于多个主题；\n每个文档的主题分布是一个 Multinomial, 参数来自 Dirichlet"
   },
   {
     "objectID": "02_topic_sentiment/lecture2.html#lda-as-dimension-reduction",
     "href": "02_topic_sentiment/lecture2.html#lda-as-dimension-reduction",
     "title": "Lecture 2",
     "section": "LDA as Dimension Reduction",
-    "text": "LDA as Dimension Reduction\nLDA 也可以看作是一种降维技术： * 把高维的词频向量映射为低维的主题空间； * 与 PCA 类似，但： * LDA 的分量是正数 * 用概率建模而非线性投影\n📌 替代方案：矩阵分解（Matrix Factorization）、交替最小二乘（ALS） * Expected word vector: \\(\\mathbb{E}[w] = \\theta^\\top \\beta\\) * θ: document’s topic distribution * β: topic’s word distribution"
+    "text": "LDA as Dimension Reduction\nLDA 也可以看作是一种降维技术： * 把高维的词频向量映射为低维的主题空间； * 非线性降维 \\[\n\\mathbb{E}[w] = \\theta^\\top \\beta\n\\]\n\nθ：文档的主题分布（类似 PCA 中的因子得分）\nβ：主题中的词分布（类似因子载荷）\n\n\n与 PCA 的异同：\n\n\n\n比较\nPCA\nLDA\n\n\n\n\n分量符号\n可正可负\n都是非负\n\n\n模型类型\n线性代数\n贝叶斯生成模型\n\n\n表达方式\n向量投影\n概率生成\n\n\n数据类型\n连续数据\n离散数据（如文本）\n\n\n是否考虑词共现\n否\n是（通过主题）\n\n\n\n\nLDA与 PCA 类似，但：\n\nLDA 的分量是正数\n用概率建模而非线性投影\n\n\n替代方案：Matrix Factorization、Alternating Least Squares 交替最小二乘（ALS）"
   },
   {
     "objectID": "02_topic_sentiment/lecture2.html#variational-inference-in-lda",
     "href": "02_topic_sentiment/lecture2.html#variational-inference-in-lda",
     "title": "Lecture 2",
     "section": "Variational Inference in LDA",
-    "text": "Variational Inference in LDA\nWhy Variational Inference (VI)?\n\nPosterior \\(p(\\theta, z \\mid w)\\) is intractable.\nVI approximates it with simpler \\(q(\\theta, z)\\) by minimizing KL divergence.\n\nVI Mechanism:\n\nUse mean-field factorization: \\(q(\\theta, z) = q(\\theta) \\prod_n q(z_n)\\)\nOptimize parameters \\(\\gamma, \\phi\\)\nIteratively update:\n\n\\(\\phi_{ni} \\propto \\beta_{i w_n} \\exp(\\Psi(\\gamma_i))\\)\n\\(\\gamma_i = \\alpha_i + \\sum_n \\phi_{ni}\\)\n\n贝叶斯推断要求计算后验分布，但不可解析；\nVI 把推断问题转为优化问题：\n\n选一个可处理的分布族 \\(q\\)，使其最接近真实后验。\n用变分参数 \\(\\gamma\\) 和 \\(\\phi\\) 表达文档的主题表示和词的主题分布。\n\n\n比较：\n\n\n\n方法\n优点\n缺点\n\n\n\n\nMCMC\n精度高\n慢，不适合大规模\n\n\nVI\n快，有解析形式\n有偏差，依赖分布族"
+    "text": "Variational Inference in LDA\nWhy Variational Inference (VI)?\n\nPosterior \\(p(\\theta, z \\mid w)\\) is intractable.\nVI approximates it with simpler \\(q(\\theta, z)\\) by minimizing KL divergence.\n\nVI Mechanism: * 贝叶斯推断要求计算后验分布，但没有解析解； \\[\np(\\theta \\mid \\text{data}) = \\frac{p(\\text{data} \\mid \\theta) p(\\theta)}{p(\\text{data})}\n\\]\n\nVI 把推断问题转为优化问题：\n\n选一个可处理的分布族 \\(q\\)，使其最接近真实后验。\n用变分参数 \\(\\gamma\\) 和 \\(\\phi\\) 表达文档的主题表示和词的主题分布。\n\nUse mean-field factorization: \\(q(\\theta, z) = q(\\theta) \\prod_n q(z_n)\\)\nOptimize parameters \\(\\gamma, \\phi\\)\nIteratively update:\n\n\\(\\phi_{ni} \\propto \\beta_{i w_n} \\exp(\\Psi(\\gamma_i))\\)\n\\(\\gamma_i = \\alpha_i + \\sum_n \\phi_{ni}\\) ### 两种主要的后验近似方法\n\n\n\n1. MCMC（Markov Chain Monte Carlo）\n\n样本采样模拟后验分布；\n理论上准确（收敛到真实后验），但：\n\n计算代价高；\n收敛慢；\n对于大规模文档数据不现实。\n\n\n\n\n2. Variational Inference（VI）\nVI 的基本思想是：\n与其反复抽样后验分布，不如选择一个容易处理的分布族 \\(q(\\theta, z)\\)，通过优化来逼近真实后验 \\(p(\\theta, z \\mid w)\\)。\n具体做法是：\n\n选择一个易于计算的变分分布族 \\(q(\\theta, z)\\)（如 Dirichlet × Multinomial）；\n通过最小化 KL 散度（Kullback-Leibler Divergence）：\n\n\\[\nq^*(\\theta, z) = \\arg\\min_q \\text{KL}(q(\\theta, z) \\| p(\\theta, z \\mid w))\n\\]\n这个最优化问题等价于最大化 Evidence Lower Bound。\n比较：\n\n\n\n方法\n优点\n缺点\n\n\n\n\nMCMC\n精度高\n慢，不适合大规模\n\n\nVI\n快，有解析形式\n有偏差，依赖分布族"
   },
   {
     "objectID": "02_topic_sentiment/lecture2.html#extensions-of-lda",
     "href": "02_topic_sentiment/lecture2.html#extensions-of-lda",
     "title": "Lecture 2",
     "section": "Extensions of LDA",
-    "text": "Extensions of LDA\n\n\n\n扩展模型\n描述\n\n\n\n\nCTM（Correlated Topic Model）\n使用 Logistic Normal 建模主题相关性\n\n\nAuthor-Topic Model\n每个作者拥有一个主题分布\n\n\nDynamic Topic Model\n模型中主题会随时间变化\n\n\n\n📌 缺点：这些扩展往往破坏 Dirichlet 的简洁性质，使得推断变得更复杂（通常需要 MCMC 或 EP）"
+    "text": "Extensions of LDA\n\n\n\n扩展模型\n描述\n\n\n\n\nCTM（Correlated Topic Model）\n使用 Logistic Normal 建模主题相关性\n\n\nAuthor-Topic Model\n每个作者拥有一个主题分布\n\n\nDynamic Topic Model\n模型中主题会随时间变化\n\n\n\n这些扩展往往破坏 Dirichlet 的简洁性质，使得推断变得更复杂（通常需要 MCMC 或 EP）"
   },
   {
     "objectID": "02_topic_sentiment/lecture2.html#sentence-constrained-lda",

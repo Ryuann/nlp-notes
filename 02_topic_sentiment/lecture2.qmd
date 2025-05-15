@@ -305,14 +305,18 @@ Topic models are statistical methods that discover abstract "topics" in a collec
 
 ## LDA Graphical Structure & Plate Notation
 
-* α：控制文档中主题分布的 Dirichlet 先验
-* θ\_d：第 d 篇文档的主题分布
+![](../../assets/LDAStructure.png)
+
+> Figure: LDA model structure (adapted from Blei et al., 2003)
+
+* α：hyperparameter for Dirichlet distribution of topic probabilities, 控制文档中主题分布的 Dirichlet 先验
+* θ\_d：topic probabilities for document d of the D documents, 第 d 篇文档的主题分布
 * z\_dn：第 d 篇文档中第 n 个词的主题
-* β\_k：第 k 个主题下的词分布
+* β\_k：word probabilities given topic k, 第 k 个主题下的词分布
 * w\_dn：实际生成的词
 * η：控制 β 的 Dirichlet 超参数
 
-🧾 **生成过程**：
+**生成过程**：
 
 1. 对每篇文档 d，从 Dirichlet(α) 抽样出 θ\_d
 2. 对每个词，从 Multinomial(θ\_d) 选择主题 z\_dn
@@ -322,27 +326,45 @@ Topic models are statistical methods that discover abstract "topics" in a collec
 
 ## LDA as Soft Clustering
 
-LDA 是一种Soft Clustering）
+LDA 是一种Soft Clustering
+
 * Each word is probabilistically assigned to a topic.
 * Unlike hard clustering (e.g. K-means), LDA allows multiple topics per document.
-
+* 常见的聚类模型，比如 K-means，是一种Hard Clustering,每个文档只属于一个类。
+* LDA是Soft Clustering: 每个词都有一个属于不同主题的概率;
 * 每个词是从多个主题中以概率方式抽样得到的；
 * 每个文档可能属于多个主题；
-* 区别于 Latent Class 模型（硬聚类，每个文档只属于一个主题）。
+* 每个文档的主题分布是一个 Multinomial, 参数来自 Dirichlet
+
 
 ---
 
 ## LDA as Dimension Reduction
 LDA 也可以看作是一种**降维技术**：
 * 把高维的词频向量映射为低维的主题空间；
-* 与 PCA 类似，但：
+* 非线性降维
+$$
+\mathbb{E}[w] = \theta^\top \beta
+$$
+
+* θ：文档的主题分布（类似 PCA 中的因子得分）
+* β：主题中的词分布（类似因子载荷）
+
+#### 与 PCA 的异同：
+
+| 比较      | PCA  | LDA       |
+| ------- | ---- | --------- |
+| 分量符号    | 可正可负 | 都是非负      |
+| 模型类型    | 线性代数 | 贝叶斯生成模型   |
+| 表达方式    | 向量投影 | 概率生成      |
+| 数据类型    | 连续数据 | 离散数据（如文本） |
+| 是否考虑词共现 | 否    | 是（通过主题）   |
+
+* LDA与 PCA 类似，但：
   * LDA 的分量是正数
   * 用概率建模而非线性投影
 
-📌 替代方案：矩阵分解（Matrix Factorization）、交替最小二乘（ALS）
-* Expected word vector: $\mathbb{E}[w] = \theta^\top \beta$
-* θ: document's topic distribution
-* β: topic's word distribution
+替代方案：Matrix Factorization、Alternating Least Squares 交替最小二乘（ALS）
 
 ---
 
@@ -354,6 +376,15 @@ LDA 也可以看作是一种**降维技术**：
 * VI approximates it with simpler $q(\theta, z)$ by minimizing KL divergence.
 
 **VI Mechanism:**
+* 贝叶斯推断要求计算后验分布，但没有解析解；
+$$
+p(\theta \mid \text{data}) = \frac{p(\text{data} \mid \theta) p(\theta)}{p(\text{data})}
+$$
+
+* VI 把推断问题转为优化问题：
+
+  * 选一个可处理的分布族 $q$，使其最接近真实后验。
+  * 用变分参数 $\gamma$ 和 $\phi$ 表达文档的主题表示和词的主题分布。
 
 * Use mean-field factorization: $q(\theta, z) = q(\theta) \prod_n q(z_n)$
 * Optimize parameters $\gamma, \phi$
@@ -361,13 +392,33 @@ LDA 也可以看作是一种**降维技术**：
 
   * $\phi_{ni} \propto \beta_{i w_n} \exp(\Psi(\gamma_i))$
   * $\gamma_i = \alpha_i + \sum_n \phi_{ni}$
+### 两种主要的后验近似方法
 
+#### 1. MCMC（Markov Chain Monte Carlo）
 
-* 贝叶斯推断要求计算后验分布，但不可解析；
-* VI 把推断问题转为优化问题：
+* 样本采样模拟后验分布；
+* 理论上准确（收敛到真实后验），但：
 
-  * 选一个可处理的分布族 $q$，使其最接近真实后验。
-  * 用变分参数 $\gamma$ 和 $\phi$ 表达文档的主题表示和词的主题分布。
+  * 计算代价高；
+  * 收敛慢；
+  * 对于大规模文档数据不现实。
+
+#### 2. Variational Inference（VI）
+
+VI 的基本思想是：
+
+与其反复抽样后验分布，不如选择一个容易处理的分布族 $q(\theta, z)$，通过优化来逼近真实后验 $p(\theta, z \mid w)$。
+
+具体做法是：
+
+* 选择一个易于计算的变分分布族 $q(\theta, z)$（如 Dirichlet × Multinomial）；
+* 通过最小化 KL 散度（Kullback-Leibler Divergence）：
+
+$$
+q^*(\theta, z) = \arg\min_q \text{KL}(q(\theta, z) \| p(\theta, z \mid w))
+$$
+
+这个最优化问题等价于最大化 Evidence Lower Bound。
 
 **比较：**
 
@@ -386,7 +437,7 @@ LDA 也可以看作是一种**降维技术**：
 | Author-Topic Model          | 每个作者拥有一个主题分布               |
 | Dynamic Topic Model         | 模型中主题会随时间变化                |
 
-📌 缺点：这些扩展往往破坏 Dirichlet 的简洁性质，使得推断变得更复杂（通常需要 MCMC 或 EP）
+这些扩展往往破坏 Dirichlet 的简洁性质，使得推断变得更复杂（通常需要 MCMC 或 EP）
 
 ---
 
