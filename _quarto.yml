@@ -1,3 +1,6 @@
+project:
+  type: website
+
 website:
   title: "NLP Notes"
   navbar:
@@ -9,7 +12,7 @@ website:
           - href: 02_topic_sentiment/lecture2.qmd
             text: Language Models & Sentiment Notes
 
-output-dir: docs
-
-
-
+format:
+  html:
+    theme: cosmo
+    toc: true
