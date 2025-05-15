@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html",
+    "href": "02_topic_sentiment/lecture2.html",
+    "title": "Video Notes: Ngram, language model, sentiment analysis",
+    "section": "",
+    "text": "Language models predict the next word in a sequence given the preceding words. This is typically modeled using conditional probability:\n语言模型的基本任务是：根据前面的词来预测下一个词。通常使用**条件概率（Conditional Probability）**来表示：\n\\[\nP(w_5 \\mid w_1, w_2, w_3, w_4)\n\\]\nThis expresses the probability of the 5th word given the first four.\n\n\nSentence: “Luck is what happens when preparation meets opportunity.”\n我们可以问：在“Luck is what happens”之后出现“when”的概率是多少？\n\n\n\n\nTo compute complex conditional probabilities, we use the chain rule:\n为了计算复杂的条件概率，我们使用概率的链式法则（Chain Rule）：\n\nBasic rule: \\(P(A \\cap B) = P(A) P(B|A)\\)\nGeneralized form: \\(P(A \\cap B \\cap C) = P(C|B \\cap A) P(B|A) P(A)\\)\n\nIn the context of language:\n\\[\nP(\\text{when}) = P(\\text{when}|\\text{happens, what, is, luck}) \\cdot \\ldots \\cdot P(\\text{luck})\n\\]\n这使得我们可以把整句话的联合概率分解成多个更容易计算的条件概率乘积。"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#language-modeling-and-probability-foundations",
+    "href": "02_topic_sentiment/lecture2.html#language-modeling-and-probability-foundations",
+    "title": "Video Notes: Ngram, language model, sentiment analysis",
+    "section": "",
+    "text": "Language models predict the next word in a sequence given the preceding words. This is typically modeled using conditional probability:\n语言模型的基本任务是：根据前面的词来预测下一个词。通常使用**条件概率（Conditional Probability）**来表示：\n\\[\nP(w_5 \\mid w_1, w_2, w_3, w_4)\n\\]\nThis expresses the probability of the 5th word given the first four.\n\n\nSentence: “Luck is what happens when preparation meets opportunity.”\n我们可以问：在“Luck is what happens”之后出现“when”的概率是多少？\n\n\n\n\nTo compute complex conditional probabilities, we use the chain rule:\n为了计算复杂的条件概率，我们使用概率的链式法则（Chain Rule）：\n\nBasic rule: \\(P(A \\cap B) = P(A) P(B|A)\\)\nGeneralized form: \\(P(A \\cap B \\cap C) = P(C|B \\cap A) P(B|A) P(A)\\)\n\nIn the context of language:\n\\[\nP(\\text{when}) = P(\\text{when}|\\text{happens, what, is, luck}) \\cdot \\ldots \\cdot P(\\text{luck})\n\\]\n这使得我们可以把整句话的联合概率分解成多个更容易计算的条件概率乘积。"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#perplexity-and-cross-entropy",
+    "href": "02_topic_sentiment/lecture2.html#perplexity-and-cross-entropy",
+    "title": "Video Notes: Ngram, language model, sentiment analysis",
+    "section": "Perplexity and Cross-Entropy",
+    "text": "Perplexity and Cross-Entropy\n\nPerplexity\nPerplexity evaluates how well a probability model predicts a sample:\n\nPerplexity = 2 raised to the cross-entropy of the model\n\nPerplexity（困惑度）衡量的是模型对测试集的“困惑”程度，越小越好。\n\\[\n\\text{Perplexity} = 2^{-\\frac{1}{W} \\sum_{k=1}^{n} \\log P(w_k)}\n\\]\n其中：\n\n\\(W\\)：测试集中单词总数\n\\(P(w_k)\\)：模型给第 \\(k\\) 个词的概率预测\n\n\n\nCross-Entropy\nCross-entropy quantifies the average number of bits needed to encode data from a distribution \\(\\tilde{p}\\) using a model \\(q\\):\n交叉熵（Cross-Entropy）用来衡量一个分布 \\(\\tilde{p}\\) 和模型分布 \\(q\\) 之间的距离：\n\\[\nH(\\tilde{p}, q) = -\\sum_{i=1}^N \\tilde{p}(x_i) \\log_2 q(x_i)\n\\]\n\n\nKL Divergence (Relative Entropy)\nMeasures how one distribution diverges from a true distribution:\nKL 散度（Kullback-Leibler Divergence）用于衡量一个预测分布 \\(q\\) 和真实分布 \\(p\\) 的差距：\n\\[\nD_{KL}(p \\parallel q) = \\sum_{i=1}^N p(x_i) \\log \\left( \\frac{p(x_i)}{q(x_i)} \\right)\n\\]\n当两者完全一致时，KL 散度为 0。"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#text-representation-models",
+    "href": "02_topic_sentiment/lecture2.html#text-representation-models",
+    "title": "Video Notes: Ngram, language model, sentiment analysis",
+    "section": "Text Representation Models",
+    "text": "Text Representation Models\n\nBag-of-Words (BoW)\nConverts text into vectors based on word occurrence counts.\nBag-of-Words（词袋模型）将文本转化为一个基于词频的向量，忽略语序和上下文。\nExample:\n\nSentence: “I would not, could not in the rain.”\nVector: [1, 1, 1, 2, 1, 1, 1, 1, 0, ...]\n\n\n\nLimitations of BoW\n\nIgnores word order and context.\nProduces high-dimensional sparse vectors.\n\nBoW 的缺点包括：\n\n无法捕捉语义和上下文信息；\n向量稀疏、维度高，效率低。\n\n\n\nTF-IDF (Term Frequency-Inverse Document Frequency)\nGives less importance to common words:\nTF-IDF 用于减少常见但信息量低的词的权重，提升“关键词”的影响力。\n\\[\n\\text{TF-IDF}(t, d) = tf(t, d) \\cdot \\log \\left( \\frac{N}{df(t)} \\right)\n\\]\n\n\nNormalized Term Frequency\nUsed to reduce bias toward longer documents:\n规范化的 Term Frequency 旨在降低长文档的词频偏差影响：\n\\[\n\\text{tf}(t,d) = 0.5 + 0.5 \\cdot \\frac{f_{t,d}}{\\max \\{f_{t',d}: t' \\in d\\}}\n\\]"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#n-gram-models",
+    "href": "02_topic_sentiment/lecture2.html#n-gram-models",
+    "title": "Video Notes: Ngram, language model, sentiment analysis",
+    "section": "N-gram Models",
+    "text": "N-gram Models\n\nBi-grams and N-grams\nBi-grams consider word pairs: “Luck is”, “is what”, “what happens”, etc.\nBi-gram 使用前一个词作为上下文来预测当前词，更好地捕捉词序和依赖性。\n\nBi-gram probability:\n\\[\nP(w_i | w_{i-1}) = \\frac{\\text{Count}(w_{i-1}, w_i)}{\\text{Count}(w_{i-1})}\n\\]\n\n\nN-gram general form:\n\\[\nP(w_1^n) = \\prod_{k=1}^{n} P(w_k | w_{k-1})\n\\]\nN-gram 模型可以拓展到任意上下文长度，但代价是数据稀疏性加剧。\n\n\n\nHandling Out-of-Vocabulary (OOV) Words\n\nIncrease corpus size\nSkip over missing n-grams\nLaplace Smoothing:\n\\[\nP_{\\text{Laplace}}(w_i) = \\frac{c_i + 1}{N + V}\n\\]\n\n为了解决 OOV 问题，可以使用拉普拉斯平滑（Laplace Smoothing），也可以引入特殊标记 &lt;unk&gt; 表示未知词。"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#sentiment-analysis-and-semantic-orientation",
+    "href": "02_topic_sentiment/lecture2.html#sentiment-analysis-and-semantic-orientation",
+    "title": "Video Notes: Ngram, language model, sentiment analysis",
+    "section": "Sentiment Analysis and Semantic Orientation",
+    "text": "Sentiment Analysis and Semantic Orientation\n\nDefinition\nSemantic orientation analyzes sentiment strength and direction in text.\n语义倾向（Semantic Orientation）用于判断文本中单词或短语的情绪极性和强度。\n\nKey dimensions:\n\nSubjectivity: objective vs subjective （客观 vs 主观）\nPolarity: negative vs positive （负面 vs 正面）\nIntensity: strength (e.g. “very good” vs “good”)\n\n\n\n\nLexicon-Based Approach\n\nUse of opinion words (typically adjectives)\nDetermine each word’s polarity using WordNet\nCombine word-level sentiment to determine sentence orientation\n\nLexicon 方法使用情感词典（如 WordNet）和形容词的极性，逐词判断文本的情感。\n\n\nWordNet Role\n\nGroups words into synsets (e.g., synonyms)\nConnects through:\n\nSynonym/Antonym\nHypernym (generalization)\nMeronym (part-whole)\n\n\nWordNet 是一个语义词典，支持同义词、反义词、上下位关系等推理，有助于识别词语的情绪极性。\n\n\nLimitations of Lexicon Methods\nFrom Agarwal & Mittal (2015):\n\nRequires large corpus\nRelies on known polarity values\nCannot handle domain-specific or unseen terms well\n\n词典方法的主要局限：\n\n依赖于已有情绪词；\n对新词、领域词无能为力；\n难以处理上下文依赖或句法反转。"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#summary-table",
+    "href": "02_topic_sentiment/lecture2.html#summary-table",
+    "title": "Video Notes: Ngram, language model, sentiment analysis",
+    "section": "Summary Table",
+    "text": "Summary Table\n\n\n\n\n\n\n\n\nTopic\nKey Concept\nLimitation\n\n\n\n\nLanguage Modeling\nPredict next word\nSensitive to data sparsity\n\n\nPerplexity\nMeasures model’s confusion\nLower = better\n\n\nBoW\nSimple vector representation\nIgnores word order\n\n\nTF-IDF\nPenalizes common words\nStill context-free\n\n\nN-gram\nUses local context\nStruggles with OOV words\n\n\nLexicon Sentiment\nDictionary-based polarity\nPoor generalization"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#references",
+    "href": "02_topic_sentiment/lecture2.html#references",
+    "title": "Video Notes: Ngram, language model, sentiment analysis",
+    "section": "References",
+    "text": "References\n\nHu, M., & Liu, B. (2004). Mining and summarizing customer reviews.\nAgarwal, A., & Mittal, N. (2015). Text classification using machine learning methods.\nWordNet: https://wordnet.princeton.edu/"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "nlp-notes",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  }
+]
