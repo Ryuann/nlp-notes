@@ -3,7 +3,7 @@ title: "Lecture 2"
 format: html
 ---
 ---
-# Video Notes: Ngram, language model, sentiment analysis
+
 ## Language Modeling and Probability Foundations
 
 ### Sequence Modeling and Prediction
@@ -291,13 +291,7 @@ WordNet 是一个词汇知识库，它用语义关系连接单词，包括：
 
 ---
 
-## References
 
-* Hu, M., & Liu, B. (2004). Mining and summarizing customer reviews.
-* Agarwal, A., & Mittal, N. (2015). Text classification using machine learning methods.
-* WordNet: [https://wordnet.princeton.edu/](https://wordnet.princeton.edu/)
-
-# Video Notes: Topic models
 ## What Are Topic Models?
 
 Topic models are statistical methods that discover abstract "topics" in a collection of documents. The most well-known model is **Latent Dirichlet Allocation (LDA)**. Documents are modeled as mixtures of topics, and each topic is characterized by a distribution over words.
@@ -431,3 +425,9 @@ Topic × Sentiment:
 | 模型结构   | 文档 = 多主题，词 = 从主题中抽样                    |
 | 变体     | CTM, Dynamic LDA, Author-Topic, SC-LDA |
 | 进阶方向   | 加入情绪、时间、结构化先验                          |
+
+## References
+
+* Hu, M., & Liu, B. (2004). Mining and summarizing customer reviews.
+* Agarwal, A., & Mittal, N. (2015). Text classification using machine learning methods.
+* WordNet: [https://wordnet.princeton.edu/](https://wordnet.princeton.edu/)

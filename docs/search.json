@@ -1,0 +1,121 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#language-modeling-and-probability-foundations",
+    "href": "02_topic_sentiment/lecture2.html#language-modeling-and-probability-foundations",
+    "title": "Lecture 2",
+    "section": "Language Modeling and Probability Foundations",
+    "text": "Language Modeling and Probability Foundations\n\nSequence Modeling and Prediction\nLanguage models predict the next word in a sequence given the preceding words. This is typically modeled using conditional probability:\n语言模型的基本任务是：根据前面的词来预测下一个词。用Conditional Probability表示：\n\\[\nP(w_5 \\mid w_1, w_2, w_3, w_4)\n\\]\nThis expresses the probability of the 5th word given the first four.\n\nExample:\nSentence: “Luck is what happens when preparation meets opportunity.”\n在“Luck is what happens”之后出现“when”的概率是多少？\n\n\n\nChain Rule of Probability\nTo compute complex conditional probabilities, we use the chain rule:\n为了计算复杂的条件概率，我们使用概率的Chain Rule：\n\nBasic rule: \\(P(A \\cap B) = P(A) P(B|A)\\)\nConditional probability definition: \\(P(B|A) = \\frac{P(A \\cap B)}{P(A)}\\)\nGeneralized form: \\(P(A \\cap B \\cap C) = P(C|B \\cap A) P(B|A) P(A)\\)\n\nIn the context of language:\n目标是估计：\n\\[\nP(\\text{when} \\mid \\text{happens}, \\text{what}, \\text{is}, \\text{luck})\n\\]\n使用chain rule展开：\n\\[\nP(\\text{when}) = P(\\text{when} \\mid \\text{happens} \\cap \\text{what} \\cap \\text{is} \\cap \\text{luck}) \\\\\n\\cdot P(\\text{happens} \\mid \\text{what} \\cap \\text{is} \\cap \\text{luck}) \\\\\n\\cdot P(\\text{what} \\mid \\text{is} \\cap \\text{luck}) \\\\\n\\cdot P(\\text{is} \\mid \\text{luck}) \\\\\n\\cdot P(\\text{luck})\n\\]\n这就是语言模型中常用的思路：将一个句子中各个词的联合概率转化为一系列条件概率的乘积。"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#perplexity-and-cross-entropy",
+    "href": "02_topic_sentiment/lecture2.html#perplexity-and-cross-entropy",
+    "title": "Lecture 2",
+    "section": "Perplexity and Cross-Entropy",
+    "text": "Perplexity and Cross-Entropy\n\nPerplexity\nPerplexity evaluates how well a probability model predicts a sample:\n\nPerplexity = 2 raised to the cross-entropy of the model\n\nPerplexity衡量的是模型对测试集的“困惑”程度，越小越好。\n它等价于模型每预测一个词时的不确定度。\n\\[\n\\text{Perplexity} = 2^{-\\frac{1}{W} \\sum_{k=1}^{n} \\log P(w_k)}\n\\]\n其中：\n\n\\(W\\)：测试集中单词总数\n\\(P(w_k)\\)：模型给第 \\(k\\) 个词的概率预测\n\n\n\nCross-Entropy\nCross-entropy quantifies the average number of bits needed to encode data from a distribution \\(\\tilde{p}\\) using a model \\(q\\):\n交叉熵（Cross-Entropy）用来衡量一个分布 \\(\\tilde{p}\\) 和模型分布 \\(q\\) 之间的距离：\n\\[\nH(\\tilde{p}, q) = -\\sum_{i=1}^N \\tilde{p}(x_i) \\log_2 q(x_i)\n\\]\n其中：\n\n\\(\\tilde{p}(x_i)\\)：经验概率（词 \\(x_i\\) 的出现频率）\n\\(q(x_i)\\)：模型预测的概率\n\n和 Perplexity 的关系：\n\\[\n\\text{Perplexity} = 2^{\\text{Cross-Entropy}}\n\\]\n\n\nKL Divergence (Relative Entropy)\nKL 散度衡量一个近似分布 \\(q\\) 与真实分布 \\(p\\) 的差异。它不对称，但如果两者相等，KL 散度为 0。\n公式：\n\\[\nD_{KL}(p \\parallel q) = \\sum_{i=1}^N p(x_i) \\log \\left( \\frac{p(x_i)}{q(x_i)} \\right)\n\\]\n\n\\(p(x_i)\\)：真实分布\n\\(q(x_i)\\)：模型的近似分布\n\n用途：KL 散度在训练过程中常用于优化目标函数，比如通过最小化 KL 散度来逼近真实分布。"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#text-representation-models",
+    "href": "02_topic_sentiment/lecture2.html#text-representation-models",
+    "title": "Lecture 2",
+    "section": "Text Representation Models",
+    "text": "Text Representation Models\n\nBag-of-Words (BoW)\nConverts text into vectors based on word occurrence counts.\nBoW（词袋模型）将文本向量化，每个维度表示词表中一个词在句子中出现的频率。\n\n例子说明：\n句子：\nI WOULD NOT, COULD NOT IN THE RAIN.\nNOT IN THE DARK. NOT ON A TRAIN.\n被转换为两个向量：\n[1, 1, 1, 2, 1, 1, 1, 1, 0, 0, ..., 0]\n[0, 0, 0, 2, 1, 1, 0, 1, 1, 1, ..., 0]\n每个数表示词表中对应单词在该“文档”（即句子）中出现的次数。\n\n\n\nLimitations of BoW\nBoW 的主要缺点：\n\n不考虑语义（Semantic meaning）：忽略上下文，比如“我爱你”和“你爱我”会被视为相同向量。\n维度高（Vector size）：词表大时，向量稀疏、占用资源多。\n\n\n\nTF-IDF (Term Frequency-Inverse Document Frequency)\nGives less importance to common words:\n目的：降低高频无意义词（如 “the”, “and”）的权重，提高有区分度的词的重要性。\n定义：\n\nTF（Term Frequency）：词在文档中的频率；\nIDF（Inverse Document Frequency）：词在整个文档集中出现的“逆频率”。\n\n公式：\n\\[\n\\text{TF-IDF}(t, d) = tf(t, d) \\cdot \\log \\left( \\frac{N}{df(t)} \\right)\n\\]\n其中：\n\n\\(t\\)：词\n\\(d\\)：文档\n\\(df(t)\\)：包含该词的文档数\n\\(N\\)：文档总数\n\n\n\nNormalized Term Frequency\n为了解决文档长短对词频带来的偏差，可以进行规范化处理：\n\n对数缩放（Log Normalization）： \\(\\log(1 + f_{t,d})\\)\n最大值归一化（Max Normalization）：\n\\[\ntf(t,d) = 0.5 + 0.5 \\cdot \\frac{f_{t,d}}{\\max \\{f_{t',d} : t' \\in d\\}}\n\\]"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#n-gram-models",
+    "href": "02_topic_sentiment/lecture2.html#n-gram-models",
+    "title": "Lecture 2",
+    "section": "N-gram Models",
+    "text": "N-gram Models\n\nBi-grams and N-grams\nBi-gram（双词模型）解决 BoW 忽略词序的问题，将每两个词作为一个单元进行建模。\n例如：\n\"Luck is\", \"is what\", \"what happens\", ...\n\n\nN-gram 一般化\nN-gram 是对 Bi-gram 的拓展，使用前 \\(N-1\\) 个词预测当前词。\n\n数学表达式：\n\nUnigram: \\(P(w_i) = \\frac{\\text{Count}(w_i)}{\\sum_j \\text{Count}(w_j)}\\)\nBigram: \\(P(w_i | w_{i-1}) = \\frac{\\text{Count}(w_{i-1}, w_i)}{\\text{Count}(w_{i-1})}\\)\nN-gram: \\(P(w_1^n) = \\prod_{k=1}^{n} P(w_k | w_{k-1})\\)\n\n表示整句话的概率是各个词的条件概率连乘。\n\n\n\nOut-of-Vocabulary Words（词表外词）\n当训练集中没有出现的词叫 OOV（Out-of-Vocabulary），这会导致概率为零。\n解决办法：\n\n扩大语料库（Increase corpus size）\n跳过缺失的 n-gram（Leap over missing n-grams）\n使用平滑技术（Smoothing），如： \\(P_{\\text{Laplace}}(w_i) = \\frac{c_i + 1}{N + V}\\) 其中：\n\n\\(c_i\\)：词 \\(w_i\\) 出现次数\n\\(N\\)：词总数\n\\(V\\)：词表大小"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#sentiment-analysis-and-semantic-orientation",
+    "href": "02_topic_sentiment/lecture2.html#sentiment-analysis-and-semantic-orientation",
+    "title": "Lecture 2",
+    "section": "Sentiment Analysis and Semantic Orientation",
+    "text": "Sentiment Analysis and Semantic Orientation\n\nDefinition\nSemantic orientation analyzes sentiment strength and direction in text.\n语义倾向（Semantic Orientation）用于判断文本中单词或短语的情绪极性和强度。\n\nKey dimensions:\n\nSubjectivity: objective vs subjective （客观 vs 主观）\nPolarity: negative vs positive （负面 vs 正面）\nIntensity: strength (e.g. “very good” vs “good”)\n\n\n\n\nLexicon-Based Approach\n基于人工或半自动构建的情感词典，如 Hu & Liu（2004）的方法：\n\n提取 意见词（opinion words），如形容词（good, bad, amazing）；\n使用 WordNet 获取同义词/反义词，推断其情绪倾向；\n逐词分析并合并为句子级别判断。\n\n\n\nWordNet Role\nWordNet 是一个词汇知识库，它用语义关系连接单词，包括：\n\nSynonym（同义词）：形成同义集 Synsets\nAntonym（反义词）：如 wet 与 dry\n上下位关系（Hypernym-Hyponym）：如 furniture &gt; bed\n部分整体关系（Meronym）：如 chair 与 backrest\n\n\n\nLimitations of Lexicon Methods\n引用自 Agarwal & Mittal（2015）：\n主要问题：\n\n依赖训练语料库中的已有词汇；\n对新词、俚语、特定领域术语无能为力；\n若词典覆盖不全，系统容易失误；\n文本长度越短，语义越难判断准确。"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#summary-table",
+    "href": "02_topic_sentiment/lecture2.html#summary-table",
+    "title": "Lecture 2",
+    "section": "Summary Table",
+    "text": "Summary Table\n\n\n\n\n\n\n\n\nTopic\nKey Concept\nLimitation\n\n\n\n\nLanguage Modeling\nPredict next word\nSensitive to data sparsity\n\n\nPerplexity\nMeasures model’s confusion\nLower = better\n\n\nBoW\nSimple vector representation\nIgnores word order\n\n\nTF-IDF\nPenalizes common words\nStill context-free\n\n\nN-gram\nUses local context\nStruggles with OOV words\n\n\nLexicon Sentiment\nDictionary-based polarity\nPoor generalization"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#what-are-topic-models",
+    "href": "02_topic_sentiment/lecture2.html#what-are-topic-models",
+    "title": "Lecture 2",
+    "section": "What Are Topic Models?",
+    "text": "What Are Topic Models?\nTopic models are statistical methods that discover abstract “topics” in a collection of documents. The most well-known model is Latent Dirichlet Allocation (LDA). Documents are modeled as mixtures of topics, and each topic is characterized by a distribution over words.\n是一类无监督学习方法，能够从文本集合中自动发现潜在话题。\n\ndoc = 多个主题的混合；\ntopic = 一组词的概率分布。"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#lda-graphical-structure-plate-notation",
+    "href": "02_topic_sentiment/lecture2.html#lda-graphical-structure-plate-notation",
+    "title": "Lecture 2",
+    "section": "LDA Graphical Structure & Plate Notation",
+    "text": "LDA Graphical Structure & Plate Notation\n\nα：控制文档中主题分布的 Dirichlet 先验\nθ_d：第 d 篇文档的主题分布\nz_dn：第 d 篇文档中第 n 个词的主题\nβ_k：第 k 个主题下的词分布\nw_dn：实际生成的词\nη：控制 β 的 Dirichlet 超参数\n\n🧾 生成过程：\n\n对每篇文档 d，从 Dirichlet(α) 抽样出 θ_d\n对每个词，从 Multinomial(θ_d) 选择主题 z_dn\n再从 Multinomial(β_{z_dn}) 中采样出词 w_dn"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#lda-as-soft-clustering",
+    "href": "02_topic_sentiment/lecture2.html#lda-as-soft-clustering",
+    "title": "Lecture 2",
+    "section": "LDA as Soft Clustering",
+    "text": "LDA as Soft Clustering\nLDA 是一种Soft Clustering） * Each word is probabilistically assigned to a topic. * Unlike hard clustering (e.g. K-means), LDA allows multiple topics per document.\n\n每个词是从多个主题中以概率方式抽样得到的；\n每个文档可能属于多个主题；\n区别于 Latent Class 模型（硬聚类，每个文档只属于一个主题）。"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#lda-as-dimension-reduction",
+    "href": "02_topic_sentiment/lecture2.html#lda-as-dimension-reduction",
+    "title": "Lecture 2",
+    "section": "LDA as Dimension Reduction",
+    "text": "LDA as Dimension Reduction\nLDA 也可以看作是一种降维技术： * 把高维的词频向量映射为低维的主题空间； * 与 PCA 类似，但： * LDA 的分量是正数 * 用概率建模而非线性投影\n📌 替代方案：矩阵分解（Matrix Factorization）、交替最小二乘（ALS） * Expected word vector: \\(\\mathbb{E}[w] = \\theta^\\top \\beta\\) * θ: document’s topic distribution * β: topic’s word distribution"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#variational-inference-in-lda",
+    "href": "02_topic_sentiment/lecture2.html#variational-inference-in-lda",
+    "title": "Lecture 2",
+    "section": "Variational Inference in LDA",
+    "text": "Variational Inference in LDA\nWhy Variational Inference (VI)?\n\nPosterior \\(p(\\theta, z \\mid w)\\) is intractable.\nVI approximates it with simpler \\(q(\\theta, z)\\) by minimizing KL divergence.\n\nVI Mechanism:\n\nUse mean-field factorization: \\(q(\\theta, z) = q(\\theta) \\prod_n q(z_n)\\)\nOptimize parameters \\(\\gamma, \\phi\\)\nIteratively update:\n\n\\(\\phi_{ni} \\propto \\beta_{i w_n} \\exp(\\Psi(\\gamma_i))\\)\n\\(\\gamma_i = \\alpha_i + \\sum_n \\phi_{ni}\\)\n\n贝叶斯推断要求计算后验分布，但不可解析；\nVI 把推断问题转为优化问题：\n\n选一个可处理的分布族 \\(q\\)，使其最接近真实后验。\n用变分参数 \\(\\gamma\\) 和 \\(\\phi\\) 表达文档的主题表示和词的主题分布。\n\n\n比较：\n\n\n\n方法\n优点\n缺点\n\n\n\n\nMCMC\n精度高\n慢，不适合大规模\n\n\nVI\n快，有解析形式\n有偏差，依赖分布族"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#extensions-of-lda",
+    "href": "02_topic_sentiment/lecture2.html#extensions-of-lda",
+    "title": "Lecture 2",
+    "section": "Extensions of LDA",
+    "text": "Extensions of LDA\n\n\n\n扩展模型\n描述\n\n\n\n\nCTM（Correlated Topic Model）\n使用 Logistic Normal 建模主题相关性\n\n\nAuthor-Topic Model\n每个作者拥有一个主题分布\n\n\nDynamic Topic Model\n模型中主题会随时间变化\n\n\n\n📌 缺点：这些扩展往往破坏 Dirichlet 的简洁性质，使得推断变得更复杂（通常需要 MCMC 或 EP）"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#sentence-constrained-lda",
+    "href": "02_topic_sentiment/lecture2.html#sentence-constrained-lda",
+    "title": "Lecture 2",
+    "section": "Sentence-Constrained LDA",
+    "text": "Sentence-Constrained LDA\nSC-LDA 假设：一句话通常只讲一个主题，并且这个主题可能在下一句中延续。\n\n每句 → 一个主题\n更贴近用户在评论中的表达结构\n可用于产品属性提取（如“屏幕、价格、电池”）\n文档的主题分布可用于预测评分\nEach sentence tends to express one topic (Buschken & Allenby, 2016)\nBetter topic-word tail modeling\nImproves interpretability & rating prediction\n\n\n情感不是主题：\n\n主题由“名词”驱动，情感由“形容词”驱动；\n同一个主题可能包含褒贬不一的内容；\n在大数据中可能学出“主题+情绪”复合结构（如“bad battery”）\n\nTopic × Sentiment:\n\n先识别句子的主题（SC-LDA）\n对句子做情绪分类\n将情绪与主题进行交互建模 → 方面级情感分析（Aspect-Based Sentiment Analysis）"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#summary",
+    "href": "02_topic_sentiment/lecture2.html#summary",
+    "title": "Lecture 2",
+    "section": "Summary",
+    "text": "Summary\n\n\n\n主题\n内容\n\n\n\n\nLDA 核心\n主题分布 × 词分布（θ × β）\n\n\n推断方法\nVI（快） vs MCMC（准）\n\n\n模型结构\n文档 = 多主题，词 = 从主题中抽样\n\n\n变体\nCTM, Dynamic LDA, Author-Topic, SC-LDA\n\n\n进阶方向\n加入情绪、时间、结构化先验"
+  },
+  {
+    "objectID": "02_topic_sentiment/lecture2.html#references",
+    "href": "02_topic_sentiment/lecture2.html#references",
+    "title": "Lecture 2",
+    "section": "References",
+    "text": "References\n\nHu, M., & Liu, B. (2004). Mining and summarizing customer reviews.\nAgarwal, A., & Mittal, N. (2015). Text classification using machine learning methods.\nWordNet: https://wordnet.princeton.edu/"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "nlp-notes",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  }
+]
