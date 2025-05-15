@@ -212,7 +212,7 @@ window.Quarto = {
 <section id="sequence-modeling-and-prediction" class="level3">
 <h3 class="anchored" data-anchor-id="sequence-modeling-and-prediction">Sequence Modeling and Prediction</h3>
 <p>Language models predict the next word in a sequence given the preceding words. This is typically modeled using conditional probability:</p>
-<p>语言模型的基本任务是：<strong>根据前面的词来预测下一个词</strong>。通常使用**条件概率（Conditional Probability）**来表示：</p>
+<p>语言模型的基本任务是：<strong>根据前面的词来预测下一个词</strong>。用Conditional Probability表示：</p>
 <p><span class="math display">\[
 P(w_5 \mid w_1, w_2, w_3, w_4)
 \]</span></p>
@@ -220,13 +220,13 @@ P(w_5 \mid w_1, w_2, w_3, w_4)
 <section id="example" class="level4">
 <h4 class="anchored" data-anchor-id="example">Example:</h4>
 <p>Sentence: <em>“Luck is what happens when preparation meets opportunity.”</em></p>
-<p>我们可以问：<strong>在“Luck is what happens”之后出现“when”的概率是多少？</strong></p>
+<p>在“Luck is what happens”之后出现“when”的概率是多少？</p>
 </section>
 </section>
 <section id="chain-rule-of-probability" class="level3">
 <h3 class="anchored" data-anchor-id="chain-rule-of-probability">Chain Rule of Probability</h3>
 <p>To compute complex conditional probabilities, we use the <strong>chain rule</strong>:</p>
-<p>为了计算复杂的条件概率，我们使用<strong>概率的链式法则（Chain Rule）</strong>：</p>
+<p>为了计算复杂的条件概率，我们使用概率的Chain Rule：</p>
 <ul>
 <li>Basic rule: <span class="math inline">\(P(A \cap B) = P(A) P(B|A)\)</span></li>
 <li>Conditional probability definition: <span class="math inline">\(P(B|A) = \frac{P(A \cap B)}{P(A)}\)</span></li>
@@ -237,7 +237,7 @@ P(w_5 \mid w_1, w_2, w_3, w_4)
 <p><span class="math display">\[
 P(\text{when} \mid \text{happens}, \text{what}, \text{is}, \text{luck})
 \]</span></p>
-<p>使用链式法则展开：</p>
+<p>使用chain rule展开：</p>
 <p><span class="math display">\[
 P(\text{when}) = P(\text{when} \mid \text{happens} \cap \text{what} \cap \text{is} \cap \text{luck}) \\
 \cdot P(\text{happens} \mid \text{what} \cap \text{is} \cap \text{luck}) \\
@@ -257,7 +257,7 @@ P(\text{when}) = P(\text{when} \mid \text{happens} \cap \text{what} \cap \text{i
 <blockquote class="blockquote">
 <p><strong>Perplexity = 2 raised to the cross-entropy of the model</strong></p>
 </blockquote>
-<p>Perplexity（困惑度）衡量的是模型对测试集的“困惑”程度，<strong>越小越好</strong>。</p>
+<p>Perplexity衡量的是模型对测试集的“困惑”程度，<strong>越小越好</strong>。</p>
 <p>它等价于模型每预测一个词时的不确定度。</p>
 <p><span class="math display">\[
 \text{Perplexity} = 2^{-\frac{1}{W} \sum_{k=1}^{n} \log P(w_k)}
