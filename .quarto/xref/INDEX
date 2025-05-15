@@ -1,0 +1,20 @@
+{
+  "index.qmd": {
+    "index.html": "413fcb29"
+  },
+  "about.qmd": {
+    "about.html": "011ac4e5"
+  },
+  "02_topic_sentiment/anoop_2018_topic_aspect.qmd": {
+    "anoop_2018_topic_aspect.html": "c4bb312f"
+  },
+  "02_topic_sentiment/hu_liu_2004_sentiment.qmd": {
+    "hu_liu_2004_sentiment.html": "72db8051"
+  },
+  "02_topic_sentiment/blei_2003_lda.qmd": {
+    "blei_2003_lda.html": "4c138971"
+  },
+  "02_topic_sentiment/lecture2.qmd": {
+    "lecture2.html": "22088b26"
+  }
+}

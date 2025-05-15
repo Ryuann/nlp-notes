@@ -1,0 +1,238 @@
+---
+title: "Video Notes: Ngram, language model, sentiment analysis"
+format: html
+---
+
+## Language Modeling and Probability Foundations
+
+### Sequence Modeling and Prediction
+
+Language models predict the next word in a sequence given the preceding words. This is typically modeled using conditional probability:
+
+语言模型的基本任务是：**根据前面的词来预测下一个词**。通常使用\*\*条件概率（Conditional Probability）\*\*来表示：
+
+$$
+P(w_5 \mid w_1, w_2, w_3, w_4)
+$$
+
+This expresses the probability of the 5th word given the first four.
+
+#### Example:
+
+Sentence: *"Luck is what happens when preparation meets opportunity."*
+
+我们可以问：**在“Luck is what happens”之后出现“when”的概率是多少？**
+
+### Chain Rule of Probability
+
+To compute complex conditional probabilities, we use the **chain rule**:
+
+为了计算复杂的条件概率，我们使用**概率的链式法则（Chain Rule）**：
+
+* Basic rule:
+  $P(A \cap B) = P(A) P(B|A)$
+* Generalized form:
+  $P(A \cap B \cap C) = P(C|B \cap A) P(B|A) P(A)$
+
+In the context of language:
+
+$$
+P(\text{when}) = P(\text{when}|\text{happens, what, is, luck}) \cdot \ldots \cdot P(\text{luck})
+$$
+
+这使得我们可以把整句话的联合概率分解成多个更容易计算的**条件概率乘积**。
+
+---
+
+## Perplexity and Cross-Entropy
+
+### Perplexity
+
+Perplexity evaluates how well a probability model predicts a sample:
+
+> **Perplexity = 2 raised to the cross-entropy of the model**
+
+Perplexity（困惑度）衡量的是模型对测试集的“困惑”程度，**越小越好**。
+
+$$
+\text{Perplexity} = 2^{-\frac{1}{W} \sum_{k=1}^{n} \log P(w_k)}
+$$
+
+其中：
+
+* $W$：测试集中单词总数
+* $P(w_k)$：模型给第 $k$ 个词的概率预测
+
+### Cross-Entropy
+
+Cross-entropy quantifies the average number of bits needed to encode data from a distribution $\tilde{p}$ using a model $q$:
+
+交叉熵（Cross-Entropy）用来衡量一个分布 $\tilde{p}$ 和模型分布 $q$ 之间的距离：
+
+$$
+H(\tilde{p}, q) = -\sum_{i=1}^N \tilde{p}(x_i) \log_2 q(x_i)
+$$
+
+### KL Divergence (Relative Entropy)
+
+Measures how one distribution diverges from a true distribution:
+
+KL 散度（Kullback-Leibler Divergence）用于衡量一个预测分布 $q$ 和真实分布 $p$ 的差距：
+
+$$
+D_{KL}(p \parallel q) = \sum_{i=1}^N p(x_i) \log \left( \frac{p(x_i)}{q(x_i)} \right)
+$$
+
+当两者完全一致时，KL 散度为 0。
+
+---
+
+## Text Representation Models
+
+### Bag-of-Words (BoW)
+
+Converts text into vectors based on word occurrence counts.
+
+Bag-of-Words（词袋模型）将文本转化为一个基于词频的向量，忽略语序和上下文。
+
+Example:
+
+* Sentence: *"I would not, could not in the rain."*
+* Vector: `[1, 1, 1, 2, 1, 1, 1, 1, 0, ...]`
+
+### Limitations of BoW
+
+* Ignores word **order** and **context**.
+* Produces **high-dimensional sparse vectors**.
+
+BoW 的缺点包括：
+
+* 无法捕捉语义和上下文信息；
+* 向量稀疏、维度高，效率低。
+
+### TF-IDF (Term Frequency-Inverse Document Frequency)
+
+Gives less importance to common words:
+
+TF-IDF 用于减少常见但信息量低的词的权重，提升“关键词”的影响力。
+
+$$
+\text{TF-IDF}(t, d) = tf(t, d) \cdot \log \left( \frac{N}{df(t)} \right)
+$$
+
+### Normalized Term Frequency
+
+Used to reduce bias toward longer documents:
+
+规范化的 Term Frequency 旨在降低长文档的词频偏差影响：
+
+$$
+\text{tf}(t,d) = 0.5 + 0.5 \cdot \frac{f_{t,d}}{\max \{f_{t',d}: t' \in d\}}
+$$
+
+---
+
+## N-gram Models
+
+### Bi-grams and N-grams
+
+Bi-grams consider word pairs:
+*“Luck is”*, *“is what”*, *“what happens”*, etc.
+
+Bi-gram 使用前一个词作为上下文来预测当前词，更好地捕捉词序和依赖性。
+
+#### Bi-gram probability:
+
+$$
+P(w_i | w_{i-1}) = \frac{\text{Count}(w_{i-1}, w_i)}{\text{Count}(w_{i-1})}
+$$
+
+#### N-gram general form:
+
+$$
+P(w_1^n) = \prod_{k=1}^{n} P(w_k | w_{k-1})
+$$
+
+N-gram 模型可以拓展到任意上下文长度，但代价是数据稀疏性加剧。
+
+### Handling Out-of-Vocabulary (OOV) Words
+
+* **Increase corpus size**
+* **Skip over missing n-grams**
+* **Laplace Smoothing**:
+
+  $$
+  P_{\text{Laplace}}(w_i) = \frac{c_i + 1}{N + V}
+  $$
+
+为了解决 OOV 问题，可以使用拉普拉斯平滑（Laplace Smoothing），也可以引入特殊标记 `<unk>` 表示未知词。
+
+---
+
+## Sentiment Analysis and Semantic Orientation
+
+### Definition
+
+Semantic orientation analyzes sentiment strength and direction in text.
+
+语义倾向（Semantic Orientation）用于判断文本中单词或短语的情绪极性和强度。
+
+#### Key dimensions:
+
+* **Subjectivity**: objective vs subjective （客观 vs 主观）
+* **Polarity**: negative vs positive （负面 vs 正面）
+* **Intensity**: strength (e.g. "very good" vs "good")
+
+### Lexicon-Based Approach
+
+* Use of **opinion words** (typically adjectives)
+* Determine each word’s polarity using **WordNet**
+* Combine word-level sentiment to determine sentence orientation
+
+Lexicon 方法使用情感词典（如 WordNet）和形容词的极性，逐词判断文本的情感。
+
+### WordNet Role
+
+* Groups words into **synsets** (e.g., synonyms)
+* Connects through:
+
+  * Synonym/Antonym
+  * Hypernym (generalization)
+  * Meronym (part-whole)
+
+WordNet 是一个语义词典，支持同义词、反义词、上下位关系等推理，有助于识别词语的情绪极性。
+
+### Limitations of Lexicon Methods
+
+From Agarwal & Mittal (2015):
+
+* Requires large corpus
+* Relies on known polarity values
+* Cannot handle domain-specific or unseen terms well
+
+词典方法的主要局限：
+
+* 依赖于已有情绪词；
+* 对新词、领域词无能为力；
+* 难以处理上下文依赖或句法反转。
+
+---
+
+## Summary Table
+
+| Topic             | Key Concept                  | Limitation                 |
+| ----------------- | ---------------------------- | -------------------------- |
+| Language Modeling | Predict next word            | Sensitive to data sparsity |
+| Perplexity        | Measures model's confusion   | Lower = better             |
+| BoW               | Simple vector representation | Ignores word order         |
+| TF-IDF            | Penalizes common words       | Still context-free         |
+| N-gram            | Uses local context           | Struggles with OOV words   |
+| Lexicon Sentiment | Dictionary-based polarity    | Poor generalization        |
+
+---
+
+## References
+
+* Hu, M., & Liu, B. (2004). Mining and summarizing customer reviews.
+* Agarwal, A., & Mittal, N. (2015). Text classification using machine learning methods.
+* WordNet: [https://wordnet.princeton.edu/](https://wordnet.princeton.edu/)

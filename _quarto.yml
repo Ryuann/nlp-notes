@@ -1,0 +1,15 @@
+website:
+  title: "NLP Notes"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - text: Topic & Sentiment
+        menu:
+          - href: 02_topic_sentiment/lecture2.qmd
+            text: Language Models & Sentiment Notes
+
+output-dir: docs
+
+
+
