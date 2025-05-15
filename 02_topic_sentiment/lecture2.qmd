@@ -453,8 +453,6 @@ SC-LDA 假设：**一句话通常只讲一个主题**，并且这个主题可能
 * Better topic-word tail modeling
 * Improves interpretability & rating prediction
 
-### 情感不是主题：
-
 * 主题由“名词”驱动，情感由“形容词”驱动；
 * 同一个主题可能包含褒贬不一的内容；
 * 在大数据中可能学出“主题+情绪”复合结构（如“bad battery”）

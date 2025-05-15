@@ -186,10 +186,7 @@ window.Quarto = {
   <li><a href="#lda-as-dimension-reduction" id="toc-lda-as-dimension-reduction" class="nav-link" data-scroll-target="#lda-as-dimension-reduction">LDA as Dimension Reduction</a></li>
   <li><a href="#variational-inference-in-lda" id="toc-variational-inference-in-lda" class="nav-link" data-scroll-target="#variational-inference-in-lda">Variational Inference in LDA</a></li>
   <li><a href="#extensions-of-lda" id="toc-extensions-of-lda" class="nav-link" data-scroll-target="#extensions-of-lda">Extensions of LDA</a></li>
-  <li><a href="#sentence-constrained-lda" id="toc-sentence-constrained-lda" class="nav-link" data-scroll-target="#sentence-constrained-lda">Sentence-Constrained LDA</a>
-  <ul class="collapse">
-  <li><a href="#情感不是主题" id="toc-情感不是主题" class="nav-link" data-scroll-target="#情感不是主题">情感不是主题：</a></li>
-  </ul></li>
+  <li><a href="#sentence-constrained-lda" id="toc-sentence-constrained-lda" class="nav-link" data-scroll-target="#sentence-constrained-lda">Sentence-Constrained LDA</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -714,20 +711,16 @@ q^*(\theta, z) = \arg\min_q \text{KL}(q(\theta, z) \| p(\theta, z \mid w))
 <h2 class="anchored" data-anchor-id="sentence-constrained-lda">Sentence-Constrained LDA</h2>
 <p>SC-LDA 假设：<strong>一句话通常只讲一个主题</strong>，并且这个主题可能在下一句中延续。</p>
 <ul>
-<li>每句 → 一个主题</li>
-<li>更贴近用户在评论中的表达结构</li>
-<li>可用于产品属性提取（如“屏幕、价格、电池”）</li>
-<li>文档的主题分布可用于<strong>预测评分</strong></li>
-<li>Each sentence tends to express one topic (Buschken &amp; Allenby, 2016)</li>
-<li>Better topic-word tail modeling</li>
-<li>Improves interpretability &amp; rating prediction</li>
-</ul>
-<section id="情感不是主题" class="level3">
-<h3 class="anchored" data-anchor-id="情感不是主题">情感不是主题：</h3>
-<ul>
-<li>主题由“名词”驱动，情感由“形容词”驱动；</li>
-<li>同一个主题可能包含褒贬不一的内容；</li>
-<li>在大数据中可能学出“主题+情绪”复合结构（如“bad battery”）</li>
+<li><p>每句 → 一个主题</p></li>
+<li><p>更贴近用户在评论中的表达结构</p></li>
+<li><p>可用于产品属性提取（如“屏幕、价格、电池”）</p></li>
+<li><p>文档的主题分布可用于<strong>预测评分</strong></p></li>
+<li><p>Each sentence tends to express one topic (Buschken &amp; Allenby, 2016)</p></li>
+<li><p>Better topic-word tail modeling</p></li>
+<li><p>Improves interpretability &amp; rating prediction</p></li>
+<li><p>主题由“名词”驱动，情感由“形容词”驱动；</p></li>
+<li><p>同一个主题可能包含褒贬不一的内容；</p></li>
+<li><p>在大数据中可能学出“主题+情绪”复合结构（如“bad battery”）</p></li>
 </ul>
 <p>Topic × Sentiment:</p>
 <ol type="1">
@@ -736,7 +729,6 @@ q^*(\theta, z) = \arg\min_q \text{KL}(q(\theta, z) \| p(\theta, z \mid w))
 <li>将情绪与主题进行交互建模 → 方面级情感分析（Aspect-Based Sentiment Analysis）</li>
 </ol>
 <hr>
-</section>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>

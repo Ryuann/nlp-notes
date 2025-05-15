@@ -95,7 +95,7 @@
     "href": "02_topic_sentiment/lecture2.html#sentence-constrained-lda",
     "title": "Lecture 2",
     "section": "Sentence-Constrained LDA",
-    "text": "Sentence-Constrained LDA\nSC-LDA 假设：一句话通常只讲一个主题，并且这个主题可能在下一句中延续。\n\n每句 → 一个主题\n更贴近用户在评论中的表达结构\n可用于产品属性提取（如“屏幕、价格、电池”）\n文档的主题分布可用于预测评分\nEach sentence tends to express one topic (Buschken & Allenby, 2016)\nBetter topic-word tail modeling\nImproves interpretability & rating prediction\n\n\n情感不是主题：\n\n主题由“名词”驱动，情感由“形容词”驱动；\n同一个主题可能包含褒贬不一的内容；\n在大数据中可能学出“主题+情绪”复合结构（如“bad battery”）\n\nTopic × Sentiment:\n\n先识别句子的主题（SC-LDA）\n对句子做情绪分类\n将情绪与主题进行交互建模 → 方面级情感分析（Aspect-Based Sentiment Analysis）"
+    "text": "Sentence-Constrained LDA\nSC-LDA 假设：一句话通常只讲一个主题，并且这个主题可能在下一句中延续。\n\n每句 → 一个主题\n更贴近用户在评论中的表达结构\n可用于产品属性提取（如“屏幕、价格、电池”）\n文档的主题分布可用于预测评分\nEach sentence tends to express one topic (Buschken & Allenby, 2016)\nBetter topic-word tail modeling\nImproves interpretability & rating prediction\n主题由“名词”驱动，情感由“形容词”驱动；\n同一个主题可能包含褒贬不一的内容；\n在大数据中可能学出“主题+情绪”复合结构（如“bad battery”）\n\nTopic × Sentiment:\n\n先识别句子的主题（SC-LDA）\n对句子做情绪分类\n将情绪与主题进行交互建模 → 方面级情感分析（Aspect-Based Sentiment Analysis）"
   },
   {
     "objectID": "02_topic_sentiment/lecture2.html#summary",
