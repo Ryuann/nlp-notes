@@ -11,6 +11,10 @@ website:
         menu:
           - href: 02_topic_sentiment/lecture2.qmd
             text: Language Models & Sentiment Notes
+      - text: LLMs
+        menu:
+          - href: 01_llms/lecture1.qmd
+            text: Introduction to LLMs
 
 format:
   html:
