@@ -16,5 +16,8 @@
   },
   "02_topic_sentiment/lecture2.qmd": {
     "lecture2.html": "22088b26"
+  },
+  "01_llms/lecture1.qmd": {
+    "lecture1.html": "6b25cb8d"
   }
 }

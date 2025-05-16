@@ -1,0 +1,115 @@
+---
+title: "Lecture 1"
+format: html
+---
+---
+
+## Reading: Eight Things to Know about Large Language Models
+
+- **LLMs predictably get more capable with increasing investment, even without targeted innovation.**  
+  - Scaling laws：只要增加训练数据、模型参数和计算资源，语言模型的能力通常会逐渐变强，这种增强是可预测的（通过数学模型）。
+  - GPT、GPT-2和GPT-3的区别主要来自于训练规模的巨大差异
+
+- **Many important LLM behaviors emerge unpredictably as a byproduct of increasing investment.**  
+  - 某些复杂能力不是逐步提高的，而是在模型达到某个规模“临界点”后突然显现。例如GPT-3 显示出“少样本学习”（few-shot learning）能力。
+
+- **LLMs often appear to learn and use representations of the outside world.**  
+  - 为了更好地预测下一个词，模型“脑中”形成了某种结构化的世界理解
+
+- **There are no reliable techniques for steering the behavior of LLMs.**
+
+- **Experts are not yet able to interpret the inner workings of LLMs.**
+
+- **Human performance on a task isn’t an upper bound on LLM performance.**
+
+- **LLMs need not express the values of their creators nor the values encoded in web text.**
+
+- **Brief interactions with LLMs are often misleading.**
+
+
+## LLM Stats
+[LLM Stats](https://llm-stats.com/) 是一个实时追踪和可视化大型语言模型发展的网站，涵盖模型发布时间线、参数量、开源/闭源状态、评估表现、碳排放等。
+
+* 快速对比不同模型（如 GPT-4、Claude、LLaMA、Gemini）的能力；
+* 了解当前主流评测榜单（如 MMLU, BIG-Bench, HumanEval）上的表现；
+* 掌握大模型增长趋势及背后的推理代价（算力与排放）；
+& 判断一个模型是否适合某研究或应用需求。
+
+<iframe src="https://llm-stats.com/" width="100%" height="600px" style="border:1px solid lightgray;" allowfullscreen></iframe>
+
+
+## Capabilities
+
+- Perform professional and academic exams at normal intelligence human  
+  - 包括 LSAT、GRE、SAT、USMLE 等
+
+- Learns a game from a move on a board  
+  - few-shot learning + in-context learning → 模型无需再训练即可理解任务
+
+- Writes and debugs computer code  
+  - 语料包含 GitHub、StackOverflow 等，衍生出 Codex、CodeGen、StarCoder
+
+- Tags texts (often) better than human coders  
+  - 人机协同标注效果最佳
+
+- Can create, adjust, tag and describe images  
+  - 多模态模型：CLIP, DALL·E, GPT-4V
+
+- Is able to complete complex tasks, especially with chain-of-thought / least-to-most prompting
+
+# Limitations
+
+- Hallucination: made-up facts  
+- Developed by and screened by mainly white male high educated students  
+- Some easy tasks are hard for GPT4（如字符位置判断）  
+- Risk: bias, disinformation, over-reliance, privacy, cybersecurity, proliferation  
+- Not Open Source → 无法解释机制，成本高  
+- Computation: 成本爆炸，资源消耗大  
+- Prompt 消耗巨大：80% 碳排来自 inference  
+- Multimodal LLMs：
+  - Not following instructions  
+  - Lack of perception  
+  - Lack of reasoning  
+  - Object hallucination following instructions
+
+# NLP vs old-school Text Mining
+
+## Process（传统完整阶段）
+
+### Before Preprocessing
+1. Create dictionaries  
+2. Tagging / annotation
+
+### Lexical Analysis
+1. Bi-grams / N-grams  
+2. POS tagging  
+3. Parse tree construction
+
+### Prediction & Reporting
+1. Concept extraction (e.g., LDA)  
+2. Sentiment analysis  
+3. Predictive analytics  
+4. Visualization
+
+# Benchmarks
+
+## GLUE  
+- MNLI、RTE、STS-B、SST-2、QQP、CoLA 等
+
+## SQuAD 1.1 / 2.0  
+- 问答系统标准数据集
+
+## SWAG  
+- 常识推理 + 对抗选项
+
+## BIG-bench  
+- Google 出品，覆盖数学、逻辑、模仿、代码等 200+ 任务  
+- 涉及“涌现能力”评估
+
+## MME  
+- 多模态评估标准，测试文本+图像理解任务
+
+# NLP Task Evolution via BERT
+
+通过 BERT 层数可以反映 NLP 从 POS、Deps、SRL 等分任务系统，过渡到由 LLM 统一建模  
+→ 深层网络捕获了从语法到语义、再到推理的语言结构

@@ -7,6 +7,69 @@
     "text": "About this site"
   },
   {
+    "objectID": "01_llms/lecture1.html#reading-eight-things-to-know-about-large-language-models",
+    "href": "01_llms/lecture1.html#reading-eight-things-to-know-about-large-language-models",
+    "title": "Lecture 1",
+    "section": "Reading: Eight Things to Know about Large Language Models",
+    "text": "Reading: Eight Things to Know about Large Language Models\n\nLLMs predictably get more capable with increasing investment, even without targeted innovation.\n\nScaling laws：只要增加训练数据、模型参数和计算资源，语言模型的能力通常会逐渐变强，这种增强是可预测的（通过数学模型）。\nGPT、GPT-2和GPT-3的区别主要来自于训练规模的巨大差异\n\nMany important LLM behaviors emerge unpredictably as a byproduct of increasing investment.\n\n某些复杂能力不是逐步提高的，而是在模型达到某个规模“临界点”后突然显现。例如GPT-3 显示出“少样本学习”（few-shot learning）能力。\n\nLLMs often appear to learn and use representations of the outside world.\n\n为了更好地预测下一个词，模型“脑中”形成了某种结构化的世界理解\n\nThere are no reliable techniques for steering the behavior of LLMs.\nExperts are not yet able to interpret the inner workings of LLMs.\nHuman performance on a task isn’t an upper bound on LLM performance.\nLLMs need not express the values of their creators nor the values encoded in web text.\nBrief interactions with LLMs are often misleading."
+  },
+  {
+    "objectID": "01_llms/lecture1.html#llm-stats",
+    "href": "01_llms/lecture1.html#llm-stats",
+    "title": "Lecture 1",
+    "section": "LLM Stats",
+    "text": "LLM Stats\nLLM Stats 是一个实时追踪和可视化大型语言模型发展的网站，涵盖模型发布时间线、参数量、开源/闭源状态、评估表现、碳排放等。\n\n快速对比不同模型（如 GPT-4、Claude、LLaMA、Gemini）的能力；\n了解当前主流评测榜单（如 MMLU, BIG-Bench, HumanEval）上的表现；\n掌握大模型增长趋势及背后的推理代价（算力与排放）； & 判断一个模型是否适合某研究或应用需求。"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#capabilities",
+    "href": "01_llms/lecture1.html#capabilities",
+    "title": "Lecture 1",
+    "section": "Capabilities",
+    "text": "Capabilities\n\nPerform professional and academic exams at normal intelligence human\n\n包括 LSAT、GRE、SAT、USMLE 等\n\nLearns a game from a move on a board\n\nfew-shot learning + in-context learning → 模型无需再训练即可理解任务\n\nWrites and debugs computer code\n\n语料包含 GitHub、StackOverflow 等，衍生出 Codex、CodeGen、StarCoder\n\nTags texts (often) better than human coders\n\n人机协同标注效果最佳\n\nCan create, adjust, tag and describe images\n\n多模态模型：CLIP, DALL·E, GPT-4V\n\nIs able to complete complex tasks, especially with chain-of-thought / least-to-most prompting"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#process传统完整阶段",
+    "href": "01_llms/lecture1.html#process传统完整阶段",
+    "title": "Lecture 1",
+    "section": "Process（传统完整阶段）",
+    "text": "Process（传统完整阶段）\n\nBefore Preprocessing\n\nCreate dictionaries\n\nTagging / annotation\n\n\n\nLexical Analysis\n\nBi-grams / N-grams\n\nPOS tagging\n\nParse tree construction\n\n\n\nPrediction & Reporting\n\nConcept extraction (e.g., LDA)\n\nSentiment analysis\n\nPredictive analytics\n\nVisualization"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#glue",
+    "href": "01_llms/lecture1.html#glue",
+    "title": "Lecture 1",
+    "section": "GLUE",
+    "text": "GLUE\n\nMNLI、RTE、STS-B、SST-2、QQP、CoLA 等"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#squad-1.1-2.0",
+    "href": "01_llms/lecture1.html#squad-1.1-2.0",
+    "title": "Lecture 1",
+    "section": "SQuAD 1.1 / 2.0",
+    "text": "SQuAD 1.1 / 2.0\n\n问答系统标准数据集"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#swag",
+    "href": "01_llms/lecture1.html#swag",
+    "title": "Lecture 1",
+    "section": "SWAG",
+    "text": "SWAG\n\n常识推理 + 对抗选项"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#big-bench",
+    "href": "01_llms/lecture1.html#big-bench",
+    "title": "Lecture 1",
+    "section": "BIG-bench",
+    "text": "BIG-bench\n\nGoogle 出品，覆盖数学、逻辑、模仿、代码等 200+ 任务\n\n涉及“涌现能力”评估"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#mme",
+    "href": "01_llms/lecture1.html#mme",
+    "title": "Lecture 1",
+    "section": "MME",
+    "text": "MME\n\n多模态评估标准，测试文本+图像理解任务"
+  },
+  {
     "objectID": "02_topic_sentiment/lecture2.html#language-modeling-and-probability-foundations",
     "href": "02_topic_sentiment/lecture2.html#language-modeling-and-probability-foundations",
     "title": "Lecture 2",
