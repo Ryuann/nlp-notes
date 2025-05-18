@@ -19,5 +19,8 @@
   },
   "01_llms/lecture1.qmd": {
     "lecture1.html": "6b25cb8d"
+  },
+  "03_word_embedding/lecture3.qmd": {
+    "lecture3.html": "a0ea0711"
   }
 }

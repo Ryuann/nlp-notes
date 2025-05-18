@@ -7,67 +7,88 @@
     "text": "About this site"
   },
   {
-    "objectID": "01_llms/lecture1.html#reading-eight-things-to-know-about-large-language-models",
-    "href": "01_llms/lecture1.html#reading-eight-things-to-know-about-large-language-models",
-    "title": "Lecture 1",
-    "section": "Reading: Eight Things to Know about Large Language Models",
-    "text": "Reading: Eight Things to Know about Large Language Models\n\nLLMs predictably get more capable with increasing investment, even without targeted innovation.\n\nScaling laws：只要增加训练数据、模型参数和计算资源，语言模型的能力通常会逐渐变强，这种增强是可预测的（通过数学模型）。\nGPT、GPT-2和GPT-3的区别主要来自于训练规模的巨大差异\n\nMany important LLM behaviors emerge unpredictably as a byproduct of increasing investment.\n\n某些复杂能力不是逐步提高的，而是在模型达到某个规模“临界点”后突然显现。例如GPT-3 显示出“少样本学习”（few-shot learning）能力。\n\nLLMs often appear to learn and use representations of the outside world.\n\n为了更好地预测下一个词，模型“脑中”形成了某种结构化的世界理解\n\nThere are no reliable techniques for steering the behavior of LLMs.\nExperts are not yet able to interpret the inner workings of LLMs.\nHuman performance on a task isn’t an upper bound on LLM performance.\nLLMs need not express the values of their creators nor the values encoded in web text.\nBrief interactions with LLMs are often misleading."
+    "objectID": "03_word_embedding/lecture3.html",
+    "href": "03_word_embedding/lecture3.html",
+    "title": "NLP Notes",
+    "section": "",
+    "text": "每个词就是一个维度，一个文本中是否出现这个词就用 1 或 0 表示。\n词汇表是 [apple, banana, cat]，句子 “apple cat” 就表示为 [1, 0, 1]。因为词表大，每个文本在高维空间中只激活少数几个词，导致大部分维度为 0，即“稀疏向量（sparse vector）”。\n常见做法是使用 one-hot encoding，使得词向量之间是正交的，即没有语义上的关联。比如 apple 是 [1,0,0]，banana 是 [0,1,0]，所以它们之间的余弦相似度为 0，无法反映“apple”和“banana”都属于“水果”这个语义信息。"
   },
   {
-    "objectID": "01_llms/lecture1.html#llm-stats",
-    "href": "01_llms/lecture1.html#llm-stats",
-    "title": "Lecture 1",
-    "section": "LLM Stats",
-    "text": "LLM Stats\nLLM Stats 是一个实时追踪和可视化大型语言模型发展的网站，涵盖模型发布时间线、参数量、开源/闭源状态、评估表现、碳排放等。\n\n快速对比不同模型（如 GPT-4、Claude、LLaMA、Gemini）的能力；\n了解当前主流评测榜单（如 MMLU, BIG-Bench, HumanEval）上的表现；\n掌握大模型增长趋势及背后的推理代价（算力与排放）； & 判断一个模型是否适合某研究或应用需求。"
+    "objectID": "03_word_embedding/lecture3.html#bow",
+    "href": "03_word_embedding/lecture3.html#bow",
+    "title": "NLP Notes",
+    "section": "",
+    "text": "每个词就是一个维度，一个文本中是否出现这个词就用 1 或 0 表示。\n词汇表是 [apple, banana, cat]，句子 “apple cat” 就表示为 [1, 0, 1]。因为词表大，每个文本在高维空间中只激活少数几个词，导致大部分维度为 0，即“稀疏向量（sparse vector）”。\n常见做法是使用 one-hot encoding，使得词向量之间是正交的，即没有语义上的关联。比如 apple 是 [1,0,0]，banana 是 [0,1,0]，所以它们之间的余弦相似度为 0，无法反映“apple”和“banana”都属于“水果”这个语义信息。"
   },
   {
-    "objectID": "01_llms/lecture1.html#capabilities",
-    "href": "01_llms/lecture1.html#capabilities",
-    "title": "Lecture 1",
-    "section": "Capabilities",
-    "text": "Capabilities\n\nPerform professional and academic exams at normal intelligence human\n\n包括 LSAT、GRE、SAT、USMLE 等\n\nLearns a game from a move on a board\n\nfew-shot learning + in-context learning → 模型无需再训练即可理解任务\n\nWrites and debugs computer code\n\n语料包含 GitHub、StackOverflow 等，衍生出 Codex、CodeGen、StarCoder\n\nTags texts (often) better than human coders\n\n人机协同标注效果最佳\n\nCan create, adjust, tag and describe images\n\n多模态模型：CLIP, DALL·E, GPT-4V\n\nIs able to complete complex tasks, especially with chain-of-thought / least-to-most prompting"
+    "objectID": "03_word_embedding/lecture3.html#tf-idf-是-bow-的加权版本",
+    "href": "03_word_embedding/lecture3.html#tf-idf-是-bow-的加权版本",
+    "title": "NLP Notes",
+    "section": "TF-IDF 是 BoW 的加权版本",
+    "text": "TF-IDF 是 BoW 的加权版本\nTF-IDF（词频-逆文档频率）给词语赋予权重，强调词语在当前文本中频繁出现、但在其他文本中少见的词（如“癌症”、“利润”）更重要。"
   },
   {
-    "objectID": "01_llms/lecture1.html#process传统完整阶段",
-    "href": "01_llms/lecture1.html#process传统完整阶段",
-    "title": "Lecture 1",
-    "section": "Process（传统完整阶段）",
-    "text": "Process（传统完整阶段）\n\nBefore Preprocessing\n\nCreate dictionaries\n\nTagging / annotation\n\n\n\nLexical Analysis\n\nBi-grams / N-grams\n\nPOS tagging\n\nParse tree construction\n\n\n\nPrediction & Reporting\n\nConcept extraction (e.g., LDA)\n\nSentiment analysis\n\nPredictive analytics\n\nVisualization"
+    "objectID": "03_word_embedding/lecture3.html#pointwise-mutual-information-pmi",
+    "href": "03_word_embedding/lecture3.html#pointwise-mutual-information-pmi",
+    "title": "NLP Notes",
+    "section": "Pointwise Mutual Information (PMI)",
+    "text": "Pointwise Mutual Information (PMI)\n\\[\n\\text{PMI}(w, d) = \\log \\frac{P(w, d)}{P(w)P(d)}\n\\]\n衡量一个词出现在某个文档中的概率是否超过随机概率。"
   },
   {
-    "objectID": "01_llms/lecture1.html#glue",
-    "href": "01_llms/lecture1.html#glue",
-    "title": "Lecture 1",
-    "section": "GLUE",
-    "text": "GLUE\n\nMNLI、RTE、STS-B、SST-2、QQP、CoLA 等"
+    "objectID": "03_word_embedding/lecture3.html#kl-散度kl-divergence",
+    "href": "03_word_embedding/lecture3.html#kl-散度kl-divergence",
+    "title": "NLP Notes",
+    "section": "KL 散度（KL Divergence）",
+    "text": "KL 散度（KL Divergence）\n度量两个分布之间的差异：\n\\[\nKL(P \\parallel Q) = \\sum_x P(x) \\log \\frac{P(x)}{Q(x)}\n\\]\n比如 \\(P\\) 是某词的真实分布，\\(Q\\) 是基线（如平均分布），它衡量“信息量”或“惊奇程度”。\nTF-IDF 的作用和这些信息论指标一致，都是为了突出“稀有但有用的词”。"
   },
   {
-    "objectID": "01_llms/lecture1.html#squad-1.1-2.0",
-    "href": "01_llms/lecture1.html#squad-1.1-2.0",
-    "title": "Lecture 1",
-    "section": "SQuAD 1.1 / 2.0",
-    "text": "SQuAD 1.1 / 2.0\n\n问答系统标准数据集"
+    "objectID": "03_word_embedding/lecture3.html#bow-的三大缺陷",
+    "href": "03_word_embedding/lecture3.html#bow-的三大缺陷",
+    "title": "NLP Notes",
+    "section": "BoW 的三大缺陷",
+    "text": "BoW 的三大缺陷\n\n新词（Out-of-Vocabulary）无法处理：除非手动添加到词汇表中。\n形成稀疏矩阵（sparse matrix）：大量词不会出现在某些句子中，导致向量中大多为 0。\nWord ordering & grammar 丢失：“dog bites man” 和 “man bites dog” 语序不同，但 BoW 认为它们完全一样。"
   },
   {
-    "objectID": "01_llms/lecture1.html#swag",
-    "href": "01_llms/lecture1.html#swag",
-    "title": "Lecture 1",
-    "section": "SWAG",
-    "text": "SWAG\n\n常识推理 + 对抗选项"
+    "objectID": "03_word_embedding/lecture3.html#distributional-assumption",
+    "href": "03_word_embedding/lecture3.html#distributional-assumption",
+    "title": "NLP Notes",
+    "section": "Distributional Assumption",
+    "text": "Distributional Assumption\n语言学家 John Firth 提出：\n\n“You shall know a word by the company it keeps.”\n\n分布式假设（Distributional Hypothesis）指出：两个词若语义相似，它们在语料中的上下文也相似。\n这为 Word2Vec、GloVe 等词向量模型奠定理论基础。"
   },
   {
-    "objectID": "01_llms/lecture1.html#big-bench",
-    "href": "01_llms/lecture1.html#big-bench",
-    "title": "Lecture 1",
-    "section": "BIG-bench",
-    "text": "BIG-bench\n\nGoogle 出品，覆盖数学、逻辑、模仿、代码等 200+ 任务\n\n涉及“涌现能力”评估"
+    "objectID": "03_word_embedding/lecture3.html#tf-idf-与信息论information-theory",
+    "href": "03_word_embedding/lecture3.html#tf-idf-与信息论information-theory",
+    "title": "NLP Notes",
+    "section": "TF-IDF 与信息论（Information Theory）",
+    "text": "TF-IDF 与信息论（Information Theory）\n我们用互信息（Mutual Information）来解释 TF-IDF 的信息作用：\n\\[\nI(D; W) = H(D) - H(D \\mid W) = \\sum_{w_i \\in W} P(w_i) \\left[ H(D) - H(D \\mid w_i) \\right]\n\\]\n替换为频数形式：\n\\[\n= \\sum_{w_i \\in W} \\frac{f_{w_i}}{F} \\left( -\\log \\frac{1}{N} + \\log \\frac{1}{N_i} \\right)\n\\]\n其中：\n\n\\(f_{w_i}\\)：词 \\(w_i\\) 出现的频数\n\n\\(F\\)：所有词总出现次数\n\n\\(N\\)：文档总数\n\n\\(N_i\\)：包含词 \\(w_i\\) 的文档数\n\n最终公式转为 TF-IDF 形式：\n\\[\n\\sum_{w_i \\in W} \\sum_{d_j \\in D} \\frac{f_{ij}}{F} \\log \\frac{N}{N_i}\n\\]\n说明 TF-IDF 实际上是互信息的一种估计。"
   },
   {
-    "objectID": "01_llms/lecture1.html#mme",
-    "href": "01_llms/lecture1.html#mme",
-    "title": "Lecture 1",
-    "section": "MME",
-    "text": "MME\n\n多模态评估标准，测试文本+图像理解任务"
+    "objectID": "03_word_embedding/lecture3.html#word-embeddings-类型",
+    "href": "03_word_embedding/lecture3.html#word-embeddings-类型",
+    "title": "NLP Notes",
+    "section": "Word Embeddings 类型",
+    "text": "Word Embeddings 类型\n\nFrequency-based embeddings（基于频率的词向量）\n\nCount (BoW)：词袋模型，统计频次\n\nTF-IDF：加权词频\n\nCo-occurrence：共现矩阵，如 GloVe\n\n\n\nPrediction-based embeddings（基于预测的词嵌入）\n\nSkip-gram：预测上下文\n\nCBOW：预测中心词"
+  },
+  {
+    "objectID": "03_word_embedding/lecture3.html#glove",
+    "href": "03_word_embedding/lecture3.html#glove",
+    "title": "NLP Notes",
+    "section": "GloVe",
+    "text": "GloVe\nGloVe = log-bilinear regression over global co-occurrence matrix。所得到的词向量代表全局共现统计（global co-occurrences）。\n目标思想：\n\\[\nF\\left( (w_i - w_j)^T \\tilde{w}_k \\right) = \\frac{F(w_j^T \\tilde{w}_k)}{F(w_i^T \\tilde{w}_k)}\n\\]\n即两个词向量之差 \\((w_i - w_j)\\) 与第三个词 \\(w_k\\) 的上下文向量 \\(\\tilde{w}_k\\) 的点积反映了它们对 \\(w_k\\) 共现的相对关系。\n这表示两个词对其他词的共现比例差异决定词向量的相对位置。\n\n两个词经常一起出现 → 向量点积大\n\n几乎不一起出现 → 向量点积小，甚至为负\n\n为什么要取对数：因为共现次数差距太大（如某些词出现几千次，某些只出现几次），使用 \\(\\log\\) 变换可以压缩数量级，使模型更稳定。\n\n\nGloVe 的 Cost Function\n比较两个词对 (i, k) 和 (j, k) 的共现比值：\n\\[\n\\log(X_{ik}) - \\log(X_{jk})\n\\]\n其中 \\(X_{ik}\\) 是词 \\(i\\) 和词 \\(k\\) 的共现次数。\n训练时，将模型预测值定义为：\n\\[\nw_i^T \\tilde{w}_k + b_i + \\tilde{b}_k = \\log(X_{ik})\n\\]\n\n\\(w_i\\)：词 \\(i\\) 的主词向量\n\n\\(\\tilde{w}_k\\)：词 \\(k\\) 的上下文向量\n\n\\(b_i\\) 和 \\(\\tilde{b}_k\\)：对应的偏置项\n\n\\(\\log(X_{ik})\\)：共现频数的对数\n\n在训练过程中，词被分别当作输入词和上下文词（input/output 双向量），训练后将两者合并得到最终词向量。\n\n\n对称性处理\n由于 \\(\\log(X_i)\\) 与 \\(k\\) 无关，我们将其定义为词 \\(i\\) 的偏置项 \\(b_i\\)，并对称地加入词 \\(k\\) 的偏置项 \\(\\tilde{b}_k\\)，得到上式。\n\n\n\n引入加权项（Weighted Least Squares）\n为避免低频共现带来的噪声，GloVe 不直接最小化平方误差，而是使用加权函数：\n\\[\nJ = \\sum_{i,j=1}^V f(X_{ij}) \\left(w_i^T \\tilde{w}_j + b_i + \\tilde{b}_j - \\log X_{ij} \\right)^2\n\\]\n\n\\(f(X_{ij})\\)：权重函数，用于调节共现项对损失函数的贡献\n\n高频词如 “the”、“of” → 权重减小\n低频词 → 可能是噪声，也减小权重\n中频词 → 贡献最大\n\n\n权重函数 \\(f(x)\\) 的设计要求：\n\n连续（continuous）\n\n单调不减（non-decreasing）\n\n\\(x\\) 很大时 \\(f(x)\\) 变小，防止高频词支配模型\n\n\\(x\\) 很小时也限制，避免低频词误导模型\n\nGloVe 通常使用如下函数：\n\\[\nf(x) =\n\\begin{cases}\n\\left( \\frac{x}{x_{\\text{max}}} \\right)^\\alpha & \\text{if } x &lt; x_{\\text{max}} \\\\\n1 & \\text{otherwise}\n\\end{cases}\n\\]\n其中 \\(x_{\\text{max}}\\) 和 \\(\\alpha\\) 是超参数，通常设置为 \\(x_{\\text{max}} = 100\\), \\(\\alpha = 0.75\\)。\n\n\n\n最终优化公式：\nGloVe 模型学习的目标是使预测值逼近实际的 \\(\\log\\) 共现频数：\n\\[\nw_i^T \\tilde{w}_j = \\log X_{ij} - b_i - \\tilde{b}_j\n\\]"
+  },
+  {
+    "objectID": "03_word_embedding/lecture3.html#continuous-bag-of-words-cbow",
+    "href": "03_word_embedding/lecture3.html#continuous-bag-of-words-cbow",
+    "title": "NLP Notes",
+    "section": "Continuous Bag of Words (CBOW)",
+    "text": "Continuous Bag of Words (CBOW)\nCBOW 使用一个固定大小的滑动窗口，以中间词（focal word）为中心，两侧的词作为“上下文（context）”，不考虑上下文词的顺序。每个词都有一个稠密向量（embedding）。\n示例：\n句子 “The quick brown fox jumps over the lazy dog”，窗口大小为 2，\nfocal word 是 “fox”，其上下文词为：“quick”, “brown”, “jumps”, “over”\n输入是上下文词的 one-hot 编码：\n\nquick  →  \\[0, 0, 0, ..., 0, 1, 0, ..., 0]  （只有 quick 的位置是 1）\nbrown  →  \\[0, 1, 0, ..., 0]\njumps  →  \\[0, 0, 1, ..., 0]\nover   →  \\[0, 0, 0, ..., 1]\n\n这些 one-hot 向量通过输入层（乘一个权重矩阵 \\(W\\)）变为词向量，然后对这 4 个词向量做平均：\n\\[\n\\boldsymbol{h} = \\frac{1}{4} \\left( \\boldsymbol{v}_{\\text{quick}} + \\boldsymbol{v}_{\\text{brown}} + \\boldsymbol{v}_{\\text{jumps}} + \\boldsymbol{v}_{\\text{over}} \\right)\n\\]\n然后用这个平均向量 \\(\\boldsymbol{h}\\) 去预测中心词 “fox”：\n\\[\n\\text{probability} = \\text{softmax}(W' \\cdot \\boldsymbol{h})\n\\]\nSoftmax 会输出一个维度为词表大小 \\(V\\) 的概率分布，模型希望此时 “fox” 的对应位置概率最高。\n\n\nCBOW 对比 Skip-Gram\n\n\n\n\n\n\n\n\n\n模型\n输入\n输出\n训练次数\n\n\n\n\nCBOW\n[quick, brown, jumps, over]\n预测中心词 “fox”\n1 次训练\n\n\nSkip-Gram\n中心词 “fox”\n分别预测 quick, brown, jumps, over\n4 次训练\n\n\n\n\nCBOW：给定多个上下文词，预测中心词。训练样本少，适合高频词。\nSkip-Gram：给定中心词，预测多个上下文词。训练样本多，适合低频词。\n\n\n\n\nCBOW 模型的数学计算\n每个输出词的得分 \\(u_j\\) 是隐藏层向量与输出词向量的点积：\n\\[\nu_j = \\boldsymbol{v}_{w_j}^T \\cdot \\boldsymbol{h}\n\\]\n\n\\(\\boldsymbol{v}_{w_j}\\)：词 \\(w_j\\) 的输出向量\n\n\\(\\boldsymbol{h}\\)：隐藏层向量（上下文平均向量）\n\n通过 Softmax 得到词 \\(w_j\\) 被预测为输出词的概率：\n\\[\np(w_j | w_I) = y_j = \\frac{ \\exp\\left( \\boldsymbol{v}_{w_j}^T \\boldsymbol{v}_{w_I} \\right)}{ \\sum_{j'=1}^{V} \\exp\\left( \\boldsymbol{v}_{w_{j'}}^T \\boldsymbol{v}_{w_I} \\right)}\n\\]\n\n\\(\\boldsymbol{v}_{w_I}\\)：上下文词向量的平均值\n\n\\(\\boldsymbol{v}_{w_j}\\)：候选输出词向量\n\n这是一个 softmax 分类器，用于最大化正确词的预测概率。\n\n\n\nCBOW 的目标函数\n目标是最大化给定上下文词 \\(w_I\\) 时，输出目标词 \\(w_o\\) 的概率：\n\\[\n\\max p(w_o \\mid w_I) = \\max y_j = \\max \\log y_j = u_j^* - \\log \\sum_{j'} \\exp(u_{j'})\n\\]\n这对应的是交叉熵损失（cross-entropy loss）：\n\\[\n-\\log p(w_o \\mid w_I)\n\\]\n等价于负对数似然（Negative Log Likelihood, NLL）\n\n\n\nCBOW 中的两个矩阵：\n\n\\(W\\)：输入词向量矩阵（input \\(\\rightarrow\\) hidden）\n\n\\(W'\\)：输出词向量矩阵（hidden \\(\\rightarrow\\) output）"
+  },
+  {
+    "objectID": "03_word_embedding/lecture3.html#skip-gram",
+    "href": "03_word_embedding/lecture3.html#skip-gram",
+    "title": "NLP Notes",
+    "section": "Skip-Gram",
+    "text": "Skip-Gram\n\n改进 Skip-gram 模型的方法，用来提高 embedding 的质量和训练速度\n将短语看作一个词来 embedding\n展示了如何通过向量运算捕捉语义和语法，以及类比推理\n强调数据量重要\n\n（参见：Mikolov et al., 2013）\n\n\n背景\n\nDistributed Word Vector Representation 的核心思想是：词的意义由它的上下文决定\n模型通过学习一个词在不同语境中出现的方式来 embedding。让“用法相似”的词拥有“空间上接近”的向量，使机器具备了基本的语义理解能力\nSkip-gram 模型是一种 Distributed Word Vector Representation，比如 Word2Vec\n目标是：给定一个词，预测它周围出现的词（上下文）\n\n\n\n\n模型结构概览\n\n从大量非结构化文本中学习 embedding\n早期的 NN 模型结构：输入层 → 投影层（word embedding lookup）→ 隐藏层（全连接）→ softmax 输出层\n大量使用全连接层，涉及大规模矩阵乘法，特别是 softmax 层需要对整个词表做归一化，代价是 O(V)，非常昂贵\nSkip-gram 不需要隐藏层，每次训练只涉及两个向量的 dot product，因此效率高\nCBOW 则是用多个上下文词的平均向量预测中心词（更快但不如 Skip-gram 细致）\n\n\n\n\n数学机制：Skip-Gram 与 CBOW\n\nSkip-Gram 数学计算\n\n输入是中心词 \\(w_I\\)，目标是每个上下文词 \\(w_O\\)\n模型通过最大化：\n\n\\[\np(w_O | w_I) = \\frac{\\exp(v_{w_O}^T \\cdot v_{w_I})}{\\sum_{w' \\in V} \\exp(v_{w'}^T \\cdot v_{w_I})}\n\\]\n\n损失函数为：\n\n\\[\nL = - \\log p(w_O | w_I)\n\\]\n\n每个训练样本对应一个这样的二分类预测（中心词 → 一个上下文词）\n\n\n\n\n\n词向量的结构性语义（Additive Compositionality）\n\n许多语言规律和模式可以通过线性转换来表示：\n\n\\[\n\\text{vec}(\"King\") - \\text{vec}(\"Man\") + \\text{vec}(\"Woman\") ≈ \\text{vec}(\"Queen\")\n\\]\n\n向量差 → 表示语法/语义关系（如性别、时态、国家 vs 首都）\n可以进行 analogy reasoning（类比推理）\n\n\n\n\nSkip-gram 模型扩展和优化方法\n\nHierarchical Softmax\n\n原始 softmax 的分母是整个词表，复杂度 O(V)\nHierarchical Softmax 用 Huffman 树，把 softmax 转换为走一棵二叉树的路径\n代价从 O(V) 降为 O(log V)\n高频词路径更短，更新更快\n\n\n\nNegative Sampling\n\n将多分类 softmax 问题转化为多个二分类任务\n训练目标：让模型区分“正样本词（上下文）”和“噪声词”\n损失函数：\n\n\\[\n\\log \\sigma(v_{w_o}^T h) + \\sum_{i=1}^{k} \\mathbb{E}_{w_i \\sim P_n(w)}[\\log \\sigma(-v_{w_i}^T h)]\n\\]\n\n只更新 1 个正样本 + k 个负样本，效率极高\n\n\n\nSubsampling of Frequent Words\n\n高频词如 “the”、“is” 太常见但信息少，可随机丢弃一部分：\n\n\\[\nP(w_i) = 1 - \\sqrt{\\frac{t}{f(w_i)}}\n\\]\n\n通常设 \\(t = 10^{-5}\\)\n能大幅提升训练速度并提高稀有词表示质量\n\n\n\nLearning Phrases\n\n用统计方法识别出高共现且语义连贯的词对（如“New_York”）\n将其作为一个 token 纳入训练\n增强模型表示能力、支持短语类比推理\n\n\n\n\n\n实验与结果\n\nNegative Sampling 通常效果更好，尤其在训练速度和稀有词表示方面\n负样本数 \\(k\\) 增大（例如 5 → 15）会提升效果\nSubsampling 提高了训练速度和准确性（2–10 倍）\n能学出有意义、可解释的词向量结构"
   },
   {
     "objectID": "02_topic_sentiment/lecture2.html#language-modeling-and-probability-foundations",
@@ -173,6 +194,69 @@
     "title": "Lecture 2",
     "section": "References",
     "text": "References\n\nHu, M., & Liu, B. (2004). Mining and summarizing customer reviews.\nAgarwal, A., & Mittal, N. (2015). Text classification using machine learning methods.\nWordNet: https://wordnet.princeton.edu/"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#reading-eight-things-to-know-about-large-language-models",
+    "href": "01_llms/lecture1.html#reading-eight-things-to-know-about-large-language-models",
+    "title": "Lecture 1",
+    "section": "Reading: Eight Things to Know about Large Language Models",
+    "text": "Reading: Eight Things to Know about Large Language Models\n\nLLMs predictably get more capable with increasing investment, even without targeted innovation.\n\nScaling laws：只要增加训练数据、模型参数和计算资源，语言模型的能力通常会逐渐变强，这种增强是可预测的（通过数学模型）。\nGPT、GPT-2和GPT-3的区别主要来自于训练规模的巨大差异\n\nMany important LLM behaviors emerge unpredictably as a byproduct of increasing investment.\n\n某些复杂能力不是逐步提高的，而是在模型达到某个规模“临界点”后突然显现。例如GPT-3 显示出“少样本学习”（few-shot learning）能力。\n\nLLMs often appear to learn and use representations of the outside world.\n\n为了更好地预测下一个词，模型“脑中”形成了某种结构化的世界理解\n\nThere are no reliable techniques for steering the behavior of LLMs.\nExperts are not yet able to interpret the inner workings of LLMs.\nHuman performance on a task isn’t an upper bound on LLM performance.\nLLMs need not express the values of their creators nor the values encoded in web text.\nBrief interactions with LLMs are often misleading."
+  },
+  {
+    "objectID": "01_llms/lecture1.html#llm-stats",
+    "href": "01_llms/lecture1.html#llm-stats",
+    "title": "Lecture 1",
+    "section": "LLM Stats",
+    "text": "LLM Stats\nLLM Stats 是一个实时追踪和可视化大型语言模型发展的网站，涵盖模型发布时间线、参数量、开源/闭源状态、评估表现、碳排放等。\n\n快速对比不同模型（如 GPT-4、Claude、LLaMA、Gemini）的能力；\n了解当前主流评测榜单（如 MMLU, BIG-Bench, HumanEval）上的表现；\n掌握大模型增长趋势及背后的推理代价（算力与排放）； & 判断一个模型是否适合某研究或应用需求。"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#capabilities",
+    "href": "01_llms/lecture1.html#capabilities",
+    "title": "Lecture 1",
+    "section": "Capabilities",
+    "text": "Capabilities\n\nPerform professional and academic exams at normal intelligence human\n\n包括 LSAT、GRE、SAT、USMLE 等\n\nLearns a game from a move on a board\n\nfew-shot learning + in-context learning → 模型无需再训练即可理解任务\n\nWrites and debugs computer code\n\n语料包含 GitHub、StackOverflow 等，衍生出 Codex、CodeGen、StarCoder\n\nTags texts (often) better than human coders\n\n人机协同标注效果最佳\n\nCan create, adjust, tag and describe images\n\n多模态模型：CLIP, DALL·E, GPT-4V\n\nIs able to complete complex tasks, especially with chain-of-thought / least-to-most prompting"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#process传统完整阶段",
+    "href": "01_llms/lecture1.html#process传统完整阶段",
+    "title": "Lecture 1",
+    "section": "Process（传统完整阶段）",
+    "text": "Process（传统完整阶段）\n\nBefore Preprocessing\n\nCreate dictionaries\n\nTagging / annotation\n\n\n\nLexical Analysis\n\nBi-grams / N-grams\n\nPOS tagging\n\nParse tree construction\n\n\n\nPrediction & Reporting\n\nConcept extraction (e.g., LDA)\n\nSentiment analysis\n\nPredictive analytics\n\nVisualization"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#glue",
+    "href": "01_llms/lecture1.html#glue",
+    "title": "Lecture 1",
+    "section": "GLUE",
+    "text": "GLUE\n\nMNLI、RTE、STS-B、SST-2、QQP、CoLA 等"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#squad-1.1-2.0",
+    "href": "01_llms/lecture1.html#squad-1.1-2.0",
+    "title": "Lecture 1",
+    "section": "SQuAD 1.1 / 2.0",
+    "text": "SQuAD 1.1 / 2.0\n\n问答系统标准数据集"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#swag",
+    "href": "01_llms/lecture1.html#swag",
+    "title": "Lecture 1",
+    "section": "SWAG",
+    "text": "SWAG\n\n常识推理 + 对抗选项"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#big-bench",
+    "href": "01_llms/lecture1.html#big-bench",
+    "title": "Lecture 1",
+    "section": "BIG-bench",
+    "text": "BIG-bench\n\nGoogle 出品，覆盖数学、逻辑、模仿、代码等 200+ 任务\n\n涉及“涌现能力”评估"
+  },
+  {
+    "objectID": "01_llms/lecture1.html#mme",
+    "href": "01_llms/lecture1.html#mme",
+    "title": "Lecture 1",
+    "section": "MME",
+    "text": "MME\n\n多模态评估标准，测试文本+图像理解任务"
   },
   {
     "objectID": "index.html",

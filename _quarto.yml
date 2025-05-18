@@ -7,14 +7,19 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - text: Topic & Sentiment
-        menu:
-          - href: 02_topic_sentiment/lecture2.qmd
-            text: Language Models & Sentiment Notes
       - text: LLMs
         menu:
           - href: 01_llms/lecture1.qmd
             text: Introduction to LLMs
+      - text: Topic & Sentiment
+        menu:
+          - href: 02_topic_sentiment/lecture2.qmd
+            text: Language Models & Sentiment Notes
+      - text: Word Embeddings
+        menu:
+          - href: 03_word_embedding/lecture3.qmd
+            text: Word Embedding Basics
+
 
 format:
   html:

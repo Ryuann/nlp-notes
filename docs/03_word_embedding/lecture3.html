@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lecture3 – NLP Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">NLP Notes</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-llms" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">LLMs</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-llms">    
+        <li>
+    <a class="dropdown-item" href="../01_llms/lecture1.html">
+ <span class="dropdown-text">Introduction to LLMs</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-topic--sentiment" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Topic &amp; Sentiment</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-topic--sentiment">    
+        <li>
+    <a class="dropdown-item" href="../02_topic_sentiment/lecture2.html">
+ <span class="dropdown-text">Language Models &amp; Sentiment Notes</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-word-embeddings" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Word Embeddings</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-word-embeddings">    
+        <li>
+    <a class="dropdown-item" href="../03_word_embedding/lecture3.html">
+ <span class="dropdown-text">Word Embedding Basics</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#bow" id="toc-bow" class="nav-link active" data-scroll-target="#bow">BoW</a></li>
+  <li><a href="#tf-idf-是-bow-的加权版本" id="toc-tf-idf-是-bow-的加权版本" class="nav-link" data-scroll-target="#tf-idf-是-bow-的加权版本">TF-IDF 是 BoW 的加权版本</a></li>
+  <li><a href="#pointwise-mutual-information-pmi" id="toc-pointwise-mutual-information-pmi" class="nav-link" data-scroll-target="#pointwise-mutual-information-pmi">Pointwise Mutual Information (PMI)</a></li>
+  <li><a href="#kl-散度kl-divergence" id="toc-kl-散度kl-divergence" class="nav-link" data-scroll-target="#kl-散度kl-divergence">KL 散度（KL Divergence）</a></li>
+  <li><a href="#bow-的三大缺陷" id="toc-bow-的三大缺陷" class="nav-link" data-scroll-target="#bow-的三大缺陷">BoW 的三大缺陷</a></li>
+  <li><a href="#distributional-assumption" id="toc-distributional-assumption" class="nav-link" data-scroll-target="#distributional-assumption">Distributional Assumption</a></li>
+  <li><a href="#tf-idf-与信息论information-theory" id="toc-tf-idf-与信息论information-theory" class="nav-link" data-scroll-target="#tf-idf-与信息论information-theory">TF-IDF 与信息论（Information Theory）</a></li>
+  <li><a href="#word-embeddings-类型" id="toc-word-embeddings-类型" class="nav-link" data-scroll-target="#word-embeddings-类型">Word Embeddings 类型</a>
+  <ul class="collapse">
+  <li><a href="#frequency-based-embeddings基于频率的词向量" id="toc-frequency-based-embeddings基于频率的词向量" class="nav-link" data-scroll-target="#frequency-based-embeddings基于频率的词向量">Frequency-based embeddings（基于频率的词向量）</a></li>
+  <li><a href="#prediction-based-embeddings基于预测的词嵌入" id="toc-prediction-based-embeddings基于预测的词嵌入" class="nav-link" data-scroll-target="#prediction-based-embeddings基于预测的词嵌入">Prediction-based embeddings（基于预测的词嵌入）</a></li>
+  </ul></li>
+  <li><a href="#glove" id="toc-glove" class="nav-link" data-scroll-target="#glove">GloVe</a>
+  <ul class="collapse">
+  <li><a href="#glove-的-cost-function" id="toc-glove-的-cost-function" class="nav-link" data-scroll-target="#glove-的-cost-function">GloVe 的 Cost Function</a></li>
+  <li><a href="#对称性处理" id="toc-对称性处理" class="nav-link" data-scroll-target="#对称性处理">对称性处理</a></li>
+  <li><a href="#引入加权项weighted-least-squares" id="toc-引入加权项weighted-least-squares" class="nav-link" data-scroll-target="#引入加权项weighted-least-squares">引入加权项（Weighted Least Squares）</a></li>
+  <li><a href="#权重函数-fx-的设计要求" id="toc-权重函数-fx-的设计要求" class="nav-link" data-scroll-target="#权重函数-fx-的设计要求">权重函数 <span class="math inline">\(f(x)\)</span> 的设计要求：</a></li>
+  <li><a href="#最终优化公式" id="toc-最终优化公式" class="nav-link" data-scroll-target="#最终优化公式">最终优化公式：</a></li>
+  </ul></li>
+  <li><a href="#continuous-bag-of-words-cbow" id="toc-continuous-bag-of-words-cbow" class="nav-link" data-scroll-target="#continuous-bag-of-words-cbow">Continuous Bag of Words (CBOW)</a>
+  <ul class="collapse">
+  <li><a href="#cbow-对比-skip-gram" id="toc-cbow-对比-skip-gram" class="nav-link" data-scroll-target="#cbow-对比-skip-gram">CBOW 对比 Skip-Gram</a></li>
+  <li><a href="#cbow-模型的数学计算" id="toc-cbow-模型的数学计算" class="nav-link" data-scroll-target="#cbow-模型的数学计算">CBOW 模型的数学计算</a></li>
+  <li><a href="#cbow-的目标函数" id="toc-cbow-的目标函数" class="nav-link" data-scroll-target="#cbow-的目标函数">CBOW 的目标函数</a></li>
+  <li><a href="#cbow-中的两个矩阵" id="toc-cbow-中的两个矩阵" class="nav-link" data-scroll-target="#cbow-中的两个矩阵">CBOW 中的两个矩阵：</a></li>
+  </ul></li>
+  <li><a href="#skip-gram" id="toc-skip-gram" class="nav-link" data-scroll-target="#skip-gram">Skip-Gram</a>
+  <ul class="collapse">
+  <li><a href="#背景" id="toc-背景" class="nav-link" data-scroll-target="#背景">背景</a></li>
+  <li><a href="#模型结构概览" id="toc-模型结构概览" class="nav-link" data-scroll-target="#模型结构概览">模型结构概览</a></li>
+  <li><a href="#数学机制skip-gram-与-cbow" id="toc-数学机制skip-gram-与-cbow" class="nav-link" data-scroll-target="#数学机制skip-gram-与-cbow">数学机制：Skip-Gram 与 CBOW</a></li>
+  <li><a href="#词向量的结构性语义additive-compositionality" id="toc-词向量的结构性语义additive-compositionality" class="nav-link" data-scroll-target="#词向量的结构性语义additive-compositionality">词向量的结构性语义（Additive Compositionality）</a></li>
+  <li><a href="#skip-gram-模型扩展和优化方法" id="toc-skip-gram-模型扩展和优化方法" class="nav-link" data-scroll-target="#skip-gram-模型扩展和优化方法">Skip-gram 模型扩展和优化方法</a></li>
+  <li><a href="#实验与结果" id="toc-实验与结果" class="nav-link" data-scroll-target="#实验与结果">实验与结果</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="bow" class="level2">
+<h2 class="anchored" data-anchor-id="bow">BoW</h2>
+<p>每个词就是一个维度，一个文本中是否出现这个词就用 1 或 0 表示。<br>
+词汇表是 [apple, banana, cat]，句子 “apple cat” 就表示为 <code>[1, 0, 1]</code>。因为词表大，每个文本在高维空间中只激活少数几个词，导致大部分维度为 0，即“稀疏向量（sparse vector）”。</p>
+<p>常见做法是使用 one-hot encoding，使得词向量之间是正交的，即没有语义上的关联。比如 apple 是 <code>[1,0,0]</code>，banana 是 <code>[0,1,0]</code>，所以它们之间的余弦相似度为 0，无法反映“apple”和“banana”都属于“水果”这个语义信息。</p>
+</section>
+<section id="tf-idf-是-bow-的加权版本" class="level2">
+<h2 class="anchored" data-anchor-id="tf-idf-是-bow-的加权版本">TF-IDF 是 BoW 的加权版本</h2>
+<p>TF-IDF（词频-逆文档频率）给词语赋予权重，强调词语在当前文本中频繁出现、但在其他文本中少见的词（如“癌症”、“利润”）更重要。</p>
+</section>
+<section id="pointwise-mutual-information-pmi" class="level2">
+<h2 class="anchored" data-anchor-id="pointwise-mutual-information-pmi">Pointwise Mutual Information (PMI)</h2>
+<p><span class="math display">\[
+\text{PMI}(w, d) = \log \frac{P(w, d)}{P(w)P(d)}
+\]</span></p>
+<p>衡量一个词出现在某个文档中的概率是否超过随机概率。</p>
+</section>
+<section id="kl-散度kl-divergence" class="level2">
+<h2 class="anchored" data-anchor-id="kl-散度kl-divergence">KL 散度（KL Divergence）</h2>
+<p>度量两个分布之间的差异：</p>
+<p><span class="math display">\[
+KL(P \parallel Q) = \sum_x P(x) \log \frac{P(x)}{Q(x)}
+\]</span></p>
+<p>比如 <span class="math inline">\(P\)</span> 是某词的真实分布，<span class="math inline">\(Q\)</span> 是基线（如平均分布），它衡量“信息量”或“惊奇程度”。</p>
+<p>TF-IDF 的作用和这些信息论指标一致，都是为了突出“稀有但有用的词”。</p>
+</section>
+<section id="bow-的三大缺陷" class="level2">
+<h2 class="anchored" data-anchor-id="bow-的三大缺陷">BoW 的三大缺陷</h2>
+<ol type="1">
+<li><strong>新词（Out-of-Vocabulary）无法处理</strong>：除非手动添加到词汇表中。</li>
+<li><strong>形成稀疏矩阵（sparse matrix）</strong>：大量词不会出现在某些句子中，导致向量中大多为 0。</li>
+<li><strong>Word ordering &amp; grammar 丢失</strong>：“dog bites man” 和 “man bites dog” 语序不同，但 BoW 认为它们完全一样。</li>
+</ol>
+</section>
+<section id="distributional-assumption" class="level2">
+<h2 class="anchored" data-anchor-id="distributional-assumption">Distributional Assumption</h2>
+<p>语言学家 John Firth 提出：</p>
+<blockquote class="blockquote">
+<p>“You shall know a word by the company it keeps.”</p>
+</blockquote>
+<p><strong>分布式假设（Distributional Hypothesis）</strong>指出：两个词若语义相似，它们在语料中的上下文也相似。</p>
+<p>这为 Word2Vec、GloVe 等词向量模型奠定理论基础。</p>
+</section>
+<section id="tf-idf-与信息论information-theory" class="level2">
+<h2 class="anchored" data-anchor-id="tf-idf-与信息论information-theory">TF-IDF 与信息论（Information Theory）</h2>
+<p>我们用互信息（Mutual Information）来解释 TF-IDF 的信息作用：</p>
+<p><span class="math display">\[
+I(D; W) = H(D) - H(D \mid W) = \sum_{w_i \in W} P(w_i) \left[ H(D) - H(D \mid w_i) \right]
+\]</span></p>
+<p>替换为频数形式：</p>
+<p><span class="math display">\[
+= \sum_{w_i \in W} \frac{f_{w_i}}{F} \left( -\log \frac{1}{N} + \log \frac{1}{N_i} \right)
+\]</span></p>
+<p>其中：</p>
+<ul>
+<li><span class="math inline">\(f_{w_i}\)</span>：词 <span class="math inline">\(w_i\)</span> 出现的频数<br>
+</li>
+<li><span class="math inline">\(F\)</span>：所有词总出现次数<br>
+</li>
+<li><span class="math inline">\(N\)</span>：文档总数<br>
+</li>
+<li><span class="math inline">\(N_i\)</span>：包含词 <span class="math inline">\(w_i\)</span> 的文档数</li>
+</ul>
+<p>最终公式转为 TF-IDF 形式：</p>
+<p><span class="math display">\[
+\sum_{w_i \in W} \sum_{d_j \in D} \frac{f_{ij}}{F} \log \frac{N}{N_i}
+\]</span></p>
+<p>说明 TF-IDF 实际上是互信息的一种估计。</p>
+</section>
+<section id="word-embeddings-类型" class="level2">
+<h2 class="anchored" data-anchor-id="word-embeddings-类型">Word Embeddings 类型</h2>
+<section id="frequency-based-embeddings基于频率的词向量" class="level3">
+<h3 class="anchored" data-anchor-id="frequency-based-embeddings基于频率的词向量">Frequency-based embeddings（基于频率的词向量）</h3>
+<ul>
+<li><strong>Count (BoW)</strong>：词袋模型，统计频次<br>
+</li>
+<li><strong>TF-IDF</strong>：加权词频<br>
+</li>
+<li><strong>Co-occurrence</strong>：共现矩阵，如 GloVe</li>
+</ul>
+</section>
+<section id="prediction-based-embeddings基于预测的词嵌入" class="level3">
+<h3 class="anchored" data-anchor-id="prediction-based-embeddings基于预测的词嵌入">Prediction-based embeddings（基于预测的词嵌入）</h3>
+<ul>
+<li><strong>Skip-gram</strong>：预测上下文<br>
+</li>
+<li><strong>CBOW</strong>：预测中心词</li>
+</ul>
+</section>
+</section>
+<section id="glove" class="level2">
+<h2 class="anchored" data-anchor-id="glove">GloVe</h2>
+<p>GloVe = log-bilinear regression over global co-occurrence matrix。所得到的词向量代表<strong>全局共现统计</strong>（global co-occurrences）。</p>
+<p>目标思想：</p>
+<p><span class="math display">\[
+F\left( (w_i - w_j)^T \tilde{w}_k \right) = \frac{F(w_j^T \tilde{w}_k)}{F(w_i^T \tilde{w}_k)}
+\]</span></p>
+<p>即两个词向量之差 <span class="math inline">\((w_i - w_j)\)</span> 与第三个词 <span class="math inline">\(w_k\)</span> 的上下文向量 <span class="math inline">\(\tilde{w}_k\)</span> 的点积反映了它们对 <span class="math inline">\(w_k\)</span> 共现的相对关系。<br>
+这表示两个词对其他词的<strong>共现比例差异决定词向量的相对位置</strong>。</p>
+<ul>
+<li>两个词经常一起出现 → 向量点积大<br>
+</li>
+<li>几乎不一起出现 → 向量点积小，甚至为负</li>
+</ul>
+<p>为什么要取对数：因为共现次数差距太大（如某些词出现几千次，某些只出现几次），使用 <span class="math inline">\(\log\)</span> 变换可以压缩数量级，使模型更稳定。</p>
+<hr>
+<section id="glove-的-cost-function" class="level3">
+<h3 class="anchored" data-anchor-id="glove-的-cost-function">GloVe 的 Cost Function</h3>
+<p>比较两个词对 (i, k) 和 (j, k) 的共现比值：</p>
+<p><span class="math display">\[
+\log(X_{ik}) - \log(X_{jk})
+\]</span></p>
+<p>其中 <span class="math inline">\(X_{ik}\)</span> 是词 <span class="math inline">\(i\)</span> 和词 <span class="math inline">\(k\)</span> 的共现次数。</p>
+<p>训练时，将模型预测值定义为：</p>
+<p><span class="math display">\[
+w_i^T \tilde{w}_k + b_i + \tilde{b}_k = \log(X_{ik})
+\]</span></p>
+<ul>
+<li><span class="math inline">\(w_i\)</span>：词 <span class="math inline">\(i\)</span> 的主词向量<br>
+</li>
+<li><span class="math inline">\(\tilde{w}_k\)</span>：词 <span class="math inline">\(k\)</span> 的上下文向量<br>
+</li>
+<li><span class="math inline">\(b_i\)</span> 和 <span class="math inline">\(\tilde{b}_k\)</span>：对应的偏置项<br>
+</li>
+<li><span class="math inline">\(\log(X_{ik})\)</span>：共现频数的对数</li>
+</ul>
+<p>在训练过程中，词被分别当作输入词和上下文词（input/output 双向量），训练后将两者合并得到最终词向量。</p>
+</section>
+<section id="对称性处理" class="level3">
+<h3 class="anchored" data-anchor-id="对称性处理">对称性处理</h3>
+<p>由于 <span class="math inline">\(\log(X_i)\)</span> 与 <span class="math inline">\(k\)</span> 无关，我们将其定义为词 <span class="math inline">\(i\)</span> 的偏置项 <span class="math inline">\(b_i\)</span>，并对称地加入词 <span class="math inline">\(k\)</span> 的偏置项 <span class="math inline">\(\tilde{b}_k\)</span>，得到上式。</p>
+<hr>
+</section>
+<section id="引入加权项weighted-least-squares" class="level3">
+<h3 class="anchored" data-anchor-id="引入加权项weighted-least-squares">引入加权项（Weighted Least Squares）</h3>
+<p>为避免低频共现带来的噪声，GloVe 不直接最小化平方误差，而是使用加权函数：</p>
+<p><span class="math display">\[
+J = \sum_{i,j=1}^V f(X_{ij}) \left(w_i^T \tilde{w}_j + b_i + \tilde{b}_j - \log X_{ij} \right)^2
+\]</span></p>
+<ul>
+<li><span class="math inline">\(f(X_{ij})\)</span>：<strong>权重函数</strong>，用于调节共现项对损失函数的贡献</li>
+</ul>
+<p>高频词如 “the”、“of” → 权重减小<br>
+低频词 → 可能是噪声，也减小权重<br>
+中频词 → 贡献最大</p>
+</section>
+<section id="权重函数-fx-的设计要求" class="level3">
+<h3 class="anchored" data-anchor-id="权重函数-fx-的设计要求">权重函数 <span class="math inline">\(f(x)\)</span> 的设计要求：</h3>
+<ul>
+<li>连续（continuous）<br>
+</li>
+<li>单调不减（non-decreasing）<br>
+</li>
+<li><span class="math inline">\(x\)</span> 很大时 <span class="math inline">\(f(x)\)</span> 变小，防止高频词支配模型<br>
+</li>
+<li><span class="math inline">\(x\)</span> 很小时也限制，避免低频词误导模型</li>
+</ul>
+<p>GloVe 通常使用如下函数：</p>
+<p><span class="math display">\[
+f(x) =
+\begin{cases}
+\left( \frac{x}{x_{\text{max}}} \right)^\alpha &amp; \text{if } x &lt; x_{\text{max}} \\
+1 &amp; \text{otherwise}
+\end{cases}
+\]</span></p>
+<p>其中 <span class="math inline">\(x_{\text{max}}\)</span> 和 <span class="math inline">\(\alpha\)</span> 是超参数，通常设置为 <span class="math inline">\(x_{\text{max}} = 100\)</span>, <span class="math inline">\(\alpha = 0.75\)</span>。</p>
+<hr>
+</section>
+<section id="最终优化公式" class="level3">
+<h3 class="anchored" data-anchor-id="最终优化公式">最终优化公式：</h3>
+<p>GloVe 模型学习的目标是使预测值逼近实际的 <span class="math inline">\(\log\)</span> 共现频数：</p>
+<p><span class="math display">\[
+w_i^T \tilde{w}_j = \log X_{ij} - b_i - \tilde{b}_j
+\]</span></p>
+</section>
+</section>
+<section id="continuous-bag-of-words-cbow" class="level2">
+<h2 class="anchored" data-anchor-id="continuous-bag-of-words-cbow">Continuous Bag of Words (CBOW)</h2>
+<p>CBOW 使用一个固定大小的滑动窗口，以中间词（focal word）为中心，两侧的词作为“上下文（context）”，不考虑上下文词的顺序。每个词都有一个稠密向量（embedding）。</p>
+<p><strong>示例</strong>：<br>
+句子 “The quick brown fox jumps over the lazy dog”，窗口大小为 2，<br>
+focal word 是 “fox”，其上下文词为：“quick”, “brown”, “jumps”, “over”</p>
+<p>输入是上下文词的 one-hot 编码：</p>
+<pre><code>
+quick  →  \[0, 0, 0, ..., 0, 1, 0, ..., 0]  （只有 quick 的位置是 1）
+brown  →  \[0, 1, 0, ..., 0]
+jumps  →  \[0, 0, 1, ..., 0]
+over   →  \[0, 0, 0, ..., 1]
+</code></pre>
+<p>这些 one-hot 向量通过输入层（乘一个权重矩阵 <span class="math inline">\(W\)</span>）变为词向量，然后对这 4 个词向量做平均：</p>
+<p><span class="math display">\[
+\boldsymbol{h} = \frac{1}{4} \left( \boldsymbol{v}_{\text{quick}} + \boldsymbol{v}_{\text{brown}} + \boldsymbol{v}_{\text{jumps}} + \boldsymbol{v}_{\text{over}} \right)
+\]</span></p>
+<p>然后用这个平均向量 <span class="math inline">\(\boldsymbol{h}\)</span> 去预测中心词 “fox”：</p>
+<p><span class="math display">\[
+\text{probability} = \text{softmax}(W' \cdot \boldsymbol{h})
+\]</span></p>
+<p>Softmax 会输出一个维度为词表大小 <span class="math inline">\(V\)</span> 的概率分布，模型希望此时 “fox” 的对应位置概率最高。</p>
+<hr>
+<section id="cbow-对比-skip-gram" class="level3">
+<h3 class="anchored" data-anchor-id="cbow-对比-skip-gram">CBOW 对比 Skip-Gram</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 34%">
+<col style="width: 40%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>模型</th>
+<th>输入</th>
+<th>输出</th>
+<th>训练次数</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CBOW</td>
+<td>[quick, brown, jumps, over]</td>
+<td>预测中心词 “fox”</td>
+<td>1 次训练</td>
+</tr>
+<tr class="even">
+<td>Skip-Gram</td>
+<td>中心词 “fox”</td>
+<td>分别预测 quick, brown, jumps, over</td>
+<td>4 次训练</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>CBOW</strong>：给定多个上下文词，预测中心词。训练样本少，适合高频词。</li>
+<li><strong>Skip-Gram</strong>：给定中心词，预测多个上下文词。训练样本多，适合低频词。</li>
+</ul>
+<hr>
+</section>
+<section id="cbow-模型的数学计算" class="level3">
+<h3 class="anchored" data-anchor-id="cbow-模型的数学计算">CBOW 模型的数学计算</h3>
+<p>每个输出词的得分 <span class="math inline">\(u_j\)</span> 是隐藏层向量与输出词向量的点积：</p>
+<p><span class="math display">\[
+u_j = \boldsymbol{v}_{w_j}^T \cdot \boldsymbol{h}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\boldsymbol{v}_{w_j}\)</span>：词 <span class="math inline">\(w_j\)</span> 的输出向量<br>
+</li>
+<li><span class="math inline">\(\boldsymbol{h}\)</span>：隐藏层向量（上下文平均向量）</li>
+</ul>
+<p>通过 Softmax 得到词 <span class="math inline">\(w_j\)</span> 被预测为输出词的概率：</p>
+<p><span class="math display">\[
+p(w_j | w_I) = y_j = \frac{ \exp\left( \boldsymbol{v}_{w_j}^T \boldsymbol{v}_{w_I} \right)}{ \sum_{j'=1}^{V} \exp\left( \boldsymbol{v}_{w_{j'}}^T \boldsymbol{v}_{w_I} \right)}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\boldsymbol{v}_{w_I}\)</span>：上下文词向量的平均值<br>
+</li>
+<li><span class="math inline">\(\boldsymbol{v}_{w_j}\)</span>：候选输出词向量</li>
+</ul>
+<p>这是一个 softmax 分类器，用于最大化正确词的预测概率。</p>
+<hr>
+</section>
+<section id="cbow-的目标函数" class="level3">
+<h3 class="anchored" data-anchor-id="cbow-的目标函数">CBOW 的目标函数</h3>
+<p>目标是最大化给定上下文词 <span class="math inline">\(w_I\)</span> 时，输出目标词 <span class="math inline">\(w_o\)</span> 的概率：</p>
+<p><span class="math display">\[
+\max p(w_o \mid w_I) = \max y_j = \max \log y_j = u_j^* - \log \sum_{j'} \exp(u_{j'})
+\]</span></p>
+<p>这对应的是<strong>交叉熵损失（cross-entropy loss）</strong>：</p>
+<p><span class="math display">\[
+-\log p(w_o \mid w_I)
+\]</span></p>
+<p>等价于负对数似然（Negative Log Likelihood, NLL）</p>
+<hr>
+</section>
+<section id="cbow-中的两个矩阵" class="level3">
+<h3 class="anchored" data-anchor-id="cbow-中的两个矩阵">CBOW 中的两个矩阵：</h3>
+<ul>
+<li><span class="math inline">\(W\)</span>：输入词向量矩阵（input <span class="math inline">\(\rightarrow\)</span> hidden）<br>
+</li>
+<li><span class="math inline">\(W'\)</span>：输出词向量矩阵（hidden <span class="math inline">\(\rightarrow\)</span> output）</li>
+</ul>
+</section>
+</section>
+<section id="skip-gram" class="level2">
+<h2 class="anchored" data-anchor-id="skip-gram">Skip-Gram</h2>
+<ul>
+<li>改进 Skip-gram 模型的方法，用来提高 embedding 的质量和训练速度</li>
+<li>将短语看作一个词来 embedding</li>
+<li>展示了如何通过向量运算捕捉语义和语法，以及类比推理</li>
+<li>强调数据量重要</li>
+</ul>
+<p>（参见：<strong>Mikolov et al., 2013</strong>）</p>
+<hr>
+<section id="背景" class="level3">
+<h3 class="anchored" data-anchor-id="背景">背景</h3>
+<ul>
+<li><strong>Distributed Word Vector Representation</strong> 的核心思想是：<strong>词的意义由它的上下文决定</strong></li>
+<li>模型通过学习一个词在不同语境中出现的方式来 embedding。让“用法相似”的词拥有“空间上接近”的向量，使机器具备了基本的语义理解能力</li>
+<li>Skip-gram 模型是一种 Distributed Word Vector Representation，比如 Word2Vec</li>
+<li>目标是：给定一个词，预测它周围出现的词（上下文）</li>
+</ul>
+<hr>
+</section>
+<section id="模型结构概览" class="level3">
+<h3 class="anchored" data-anchor-id="模型结构概览">模型结构概览</h3>
+<ul>
+<li>从大量非结构化文本中学习 embedding</li>
+<li>早期的 NN 模型结构：输入层 → 投影层（word embedding lookup）→ 隐藏层（全连接）→ softmax 输出层</li>
+<li>大量使用全连接层，涉及大规模矩阵乘法，特别是 softmax 层需要对整个词表做归一化，代价是 O(V)，非常昂贵</li>
+<li>Skip-gram 不需要隐藏层，每次训练只涉及两个向量的 dot product，因此效率高</li>
+<li>CBOW 则是用多个上下文词的平均向量预测中心词（更快但不如 Skip-gram 细致）</li>
+</ul>
+<hr>
+</section>
+<section id="数学机制skip-gram-与-cbow" class="level3">
+<h3 class="anchored" data-anchor-id="数学机制skip-gram-与-cbow">数学机制：Skip-Gram 与 CBOW</h3>
+<section id="skip-gram-数学计算" class="level4">
+<h4 class="anchored" data-anchor-id="skip-gram-数学计算">Skip-Gram 数学计算</h4>
+<ul>
+<li>输入是中心词 <span class="math inline">\(w_I\)</span>，目标是每个上下文词 <span class="math inline">\(w_O\)</span></li>
+<li>模型通过最大化：</li>
+</ul>
+<p><span class="math display">\[
+p(w_O | w_I) = \frac{\exp(v_{w_O}^T \cdot v_{w_I})}{\sum_{w' \in V} \exp(v_{w'}^T \cdot v_{w_I})}
+\]</span></p>
+<ul>
+<li>损失函数为：</li>
+</ul>
+<p><span class="math display">\[
+L = - \log p(w_O | w_I)
+\]</span></p>
+<ul>
+<li>每个训练样本对应一个这样的二分类预测（中心词 → 一个上下文词）</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="词向量的结构性语义additive-compositionality" class="level3">
+<h3 class="anchored" data-anchor-id="词向量的结构性语义additive-compositionality">词向量的结构性语义（Additive Compositionality）</h3>
+<ul>
+<li>许多语言规律和模式可以通过线性转换来表示：</li>
+</ul>
+<p><span class="math display">\[
+\text{vec}("King") - \text{vec}("Man") + \text{vec}("Woman") ≈ \text{vec}("Queen")
+\]</span></p>
+<ul>
+<li>向量差 → 表示语法/语义关系（如性别、时态、国家 vs 首都）</li>
+<li>可以进行 analogy reasoning（类比推理）</li>
+</ul>
+<hr>
+</section>
+<section id="skip-gram-模型扩展和优化方法" class="level3">
+<h3 class="anchored" data-anchor-id="skip-gram-模型扩展和优化方法">Skip-gram 模型扩展和优化方法</h3>
+<section id="hierarchical-softmax" class="level4">
+<h4 class="anchored" data-anchor-id="hierarchical-softmax">Hierarchical Softmax</h4>
+<ul>
+<li>原始 softmax 的分母是整个词表，复杂度 O(V)</li>
+<li>Hierarchical Softmax 用 Huffman 树，把 softmax 转换为走一棵二叉树的路径</li>
+<li>代价从 O(V) 降为 O(log V)</li>
+<li>高频词路径更短，更新更快</li>
+</ul>
+</section>
+<section id="negative-sampling" class="level4">
+<h4 class="anchored" data-anchor-id="negative-sampling">Negative Sampling</h4>
+<ul>
+<li>将多分类 softmax 问题转化为多个二分类任务</li>
+<li>训练目标：让模型区分“正样本词（上下文）”和“噪声词”</li>
+<li>损失函数：</li>
+</ul>
+<p><span class="math display">\[
+\log \sigma(v_{w_o}^T h) + \sum_{i=1}^{k} \mathbb{E}_{w_i \sim P_n(w)}[\log \sigma(-v_{w_i}^T h)]
+\]</span></p>
+<ul>
+<li>只更新 1 个正样本 + k 个负样本，效率极高</li>
+</ul>
+</section>
+<section id="subsampling-of-frequent-words" class="level4">
+<h4 class="anchored" data-anchor-id="subsampling-of-frequent-words">Subsampling of Frequent Words</h4>
+<ul>
+<li>高频词如 “the”、“is” 太常见但信息少，可随机丢弃一部分：</li>
+</ul>
+<p><span class="math display">\[
+P(w_i) = 1 - \sqrt{\frac{t}{f(w_i)}}
+\]</span></p>
+<ul>
+<li>通常设 <span class="math inline">\(t = 10^{-5}\)</span></li>
+<li>能大幅提升训练速度并提高稀有词表示质量</li>
+</ul>
+</section>
+<section id="learning-phrases" class="level4">
+<h4 class="anchored" data-anchor-id="learning-phrases">Learning Phrases</h4>
+<ul>
+<li>用统计方法识别出高共现且语义连贯的词对（如“New_York”）</li>
+<li>将其作为一个 token 纳入训练</li>
+<li>增强模型表示能力、支持短语类比推理</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="实验与结果" class="level3">
+<h3 class="anchored" data-anchor-id="实验与结果">实验与结果</h3>
+<ul>
+<li>Negative Sampling 通常效果更好，尤其在训练速度和稀有词表示方面</li>
+<li>负样本数 <span class="math inline">\(k\)</span> 增大（例如 5 → 15）会提升效果</li>
+<li>Subsampling 提高了训练速度和准确性（2–10 倍）</li>
+<li>能学出有意义、可解释的词向量结构</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
